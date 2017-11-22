@@ -28,7 +28,7 @@ if ('serviceWorker' in navigator){
             node.innerHTML = 'falcon pressed';
             document.querySelector('body').appendChild(node)
 
-            //console.log('falcon play')
+            console.log('falcon play')
             //alert('falcon sound');
           falcon.play()
       })
