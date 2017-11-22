@@ -23,8 +23,13 @@ if ('serviceWorker' in navigator){
       let once = document.getElementById('once')
       
       once.addEventListener('click', function(){
-          console.log('falcon play')
-          alert('falcon sound');
+
+            let node = document.createElement('p')
+            node.innerHTML = 'falcon pressed';
+            document.querySelector('body').appendChild(node)
+
+            //console.log('falcon play')
+            //alert('falcon sound');
           falcon.play()
       })
     
