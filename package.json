@@ -11,10 +11,10 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "*"
   },
   "engines": {
-    "node": "8.x"
+    "node": "*"
   },
   "repository": {
     "url": "https://github.com/okramovic/breathe1"
