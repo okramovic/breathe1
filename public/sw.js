@@ -1,4 +1,4 @@
-var shellName = "breathe01",
+var shellName = "breathe02",
 files = [
   "/",
   "/index.html",
