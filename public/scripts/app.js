@@ -24,6 +24,7 @@ if ('serviceWorker' in navigator){
       
       once.addEventListener('click', function(){
           console.log('falcon play')
+          alert('falcon sound');
           falcon.play()
       })
     
