@@ -4,9 +4,10 @@
 if ('serviceWorker' in navigator){
   
         //alert('browser has service worker');
-    
+        console.log('serviceWorker available');
+          
         navigator.serviceWorker
-            .register('./sw.js')
+            .register('sw.js')
             .then(function(reg){
           
               console.log('sw registered', reg);
