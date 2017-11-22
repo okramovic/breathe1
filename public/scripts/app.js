@@ -13,13 +13,15 @@ if ('serviceWorker' in navigator){
               console.log('sw registered', reg);
         })
   
-  }
+} else {
+    alert('serviceWorker not available in this browser');
+}
   
   document.addEventListener('DOMContentLoaded',function(ev){
     
-      console.log("ahoj\n" ,ev)
+      console.log("DOM loaded" ,ev)
     
-      let falcon = document.getElementById('falcon')
+      var falcon = document.getElementById('falcon')
       
       let once = document.getElementById('once')
       
@@ -31,7 +33,31 @@ if ('serviceWorker' in navigator){
 
             console.log('falcon play')
             //alert('falcon sound');
-          falcon.play()
+            falcon.play()
       })
     
+      let timer = document.getElementById('timer')
+
+      timer.addEventListener('click', testTimer)
+
   })
+
+function testTimer(){
+        //console.log(falcon)
+        
+
+        let node = document.createElement('p')
+        node.innerHTML = 'timer set';
+        node.setAttribute('id', "announce")
+
+        document.getElementById('cons').appendChild(node)
+
+        setTimeout(function(){
+            let node = document.getElementById('announce')
+            node.innerHTML = 'timeout passed';
+            
+            console.log('timer passed')
+            falcon.play();
+            
+        },15000)
+}
