@@ -1,10 +1,12 @@
-var shellName = "breathe02",
+var shellName = "breathe3",
 files = [
   "/",
   "/index.html",
   "/styles/style.css",
+  "/styles/lake1.jpg",
   "/scripts/app.js",
   "/resources/boy.jpg",
+
 //  "/resources/falcon.mp3",
 //  "https://cdn.glitch.com/b766c17a-7343-4964-a8e5-8496ed10e4bb%2FFalcon-Mark_Mattingly-169493032.mp3"
 ]
@@ -20,6 +22,12 @@ self.addEventListener('install', function(e) {
     })
   );
 });
+
+self.addEventListener('activate', function(e) {
+
+      alert('sw activated');
+})
+
 
 // offline serving
 self.addEventListener('fetch', function(e) {
