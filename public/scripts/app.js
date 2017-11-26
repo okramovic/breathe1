@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator){
             .register('sw.js')
             .then(function(reg){
           
-              console.log('sw registered', reg);
+                    console.log('sw registered', reg);
         })
   
 } else {
@@ -22,7 +22,6 @@ if ('serviceWorker' in navigator){
       console.log("DOM loaded" ,ev)
     
       var falcon = document.getElementById('falcon')
-      
       let once = document.getElementById('once')
       
       once.addEventListener('click', function(){
@@ -36,8 +35,8 @@ if ('serviceWorker' in navigator){
             falcon.play()
       })
     
-      let timer = document.getElementById('timer')
 
+      let timer = document.getElementById('timer')
       timer.addEventListener('click', testTimer)
 
   })
