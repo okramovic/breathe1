@@ -7,15 +7,15 @@ files = [
 ]
 
 self.addEventListener('install', function(e) {
-          console.log('[ServiceWorker] Install');
+      console.log('[ServiceWorker] Install');
 
-  e.waitUntil(
-    caches.open(shellName).then(function(cache) {
-          console.log('[ServiceWorker] Caching app shell');
+      e.waitUntil(
+            caches.open(shellName).then(function(cache) {
+                  console.log('[ServiceWorker] Caching app shell');
 
-          return cache.addAll(files);
-    })
-  );
+                  return cache.addAll(files);
+            })
+      );
 });
 
 
@@ -29,7 +29,7 @@ self.addEventListener('activate', function(e) {
 // offline serving
 self.addEventListener('fetch', function(e) {
 
-      console.log('[ServiceWorker] Fetch', e.request.url);
+      console.log('[ServiceWorker] Fetch for ', e.request.url);
 
   e.respondWith(
 
