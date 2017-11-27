@@ -43,7 +43,8 @@ self.addEventListener('fetch', function(e) {
                 if (response.ok){
                     var copy = response.clone()
                     caches.open(shellName).then(cache=>{
-                      cache.put(copy)
+                      let fileUrl = e.request.url.replace(origin,"")
+                      cache.put(fileUrl, copy)
                     })
                     return response
                 } else {
