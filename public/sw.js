@@ -13,7 +13,8 @@ shellFiles = [
 self.addEventListener('install', function(e) {
       console.log('[ServiceWorker] Install');
 
-      // delete old caches /*
+      // delete old caches 
+      /*
       caches.keys().then(ckeys=>{
           console.log("cacheKeys")
           console.log(ckeys)
