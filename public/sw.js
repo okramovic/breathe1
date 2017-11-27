@@ -5,6 +5,7 @@ shellFiles = [
   "/styles/style.css",
   "/styles/lake1.jpg",
   "/scripts/app.js",
+  "/scripts/webworker.js",
   "/resources/falcon.mp3",
   "/resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3"
 ]
