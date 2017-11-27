@@ -13,6 +13,16 @@ shellFiles = [
 self.addEventListener('install', function(e) {
       console.log('[ServiceWorker] Install');
 
+      // delete old caches
+      caches.keys().then(ckeys=>{
+          console.log("cacheKeys")
+          console.log(ckeys)
+
+          var oldkeys = ckeys.filter(key=>{ return key !== shellName})
+          var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
+          return Promise.all(deletePromises)
+      })
+
       e.waitUntil(
             caches.open(shellName).then(function(cache) {
                   console.log('[ServiceWorker] installation: Caching app shell');
