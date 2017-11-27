@@ -18,10 +18,11 @@ self.addEventListener('install', function(e) {
           console.log("cacheKeys")
           console.log(ckeys)
 
-          var oldkeys = ckeys.filter(key=>{ return key !== shellName})
+          var oldkeys = ckeys.filter(key=>{ return true//key !== shellName
+                                          })
           var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
           return Promise.all(deletePromises)
-      })
+      }).then(=>{
 
       e.waitUntil(
             caches.open(shellName).then(function(cache) {
@@ -30,6 +31,7 @@ self.addEventListener('install', function(e) {
                   return cache.addAll(shellFiles);
             })
       );
+      }
 });
 
 
