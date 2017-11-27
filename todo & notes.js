@@ -34,4 +34,9 @@
 
 
     create https server = have http server and add https certificate to it        
+
+
+    TODO
+
+    - make it play both sounds offline
 */

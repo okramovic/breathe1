@@ -12,6 +12,11 @@
       "sizes": "96x96",
       "type": "image/png",
       "density": 1
+    },
+    {
+      "src": "resources/icons/icon144.png",
+      "sizes": "144x144",
+      "type": "image/png"
     }
   ],
   "background_color": "#5588ff",
