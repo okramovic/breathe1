@@ -31,7 +31,7 @@ self.addEventListener('install', function(e) {
                   return cache.addAll(shellFiles);
             })
       );
-      }
+      })
 });
 
 
