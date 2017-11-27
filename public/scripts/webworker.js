@@ -1,7 +1,3 @@
-//import { clearInterval } from "timers";
-
-//import { setTimeout } from "timers";
-
 var i = 0
 var timer
 
@@ -21,7 +17,7 @@ onmessage = function(e){
                       i++
                       postMessage(i)
                   }
-      },5000)
+      },4500)
 }
 
 // close()

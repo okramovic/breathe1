@@ -4,7 +4,7 @@ var alarm = 0
 if ('serviceWorker' in navigator){
   
         //alert('browser has service worker');
-        console.log('serviceWorker available');
+        //console.log('serviceWorker available');
           
         navigator.serviceWorker
             .register('sw.js')
@@ -20,7 +20,7 @@ if ('serviceWorker' in navigator){
 
 document.addEventListener('DOMContentLoaded',function(ev){
     
-      console.log("DOM loaded" ,ev)
+      // console.log("DOM loaded" ,ev)
     
       var falcon = document.getElementById('falcon')
       var woodblock = document.getElementById('woodblock')
