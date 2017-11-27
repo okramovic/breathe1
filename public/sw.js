@@ -22,7 +22,7 @@ self.addEventListener('install', function(e) {
                                           })
           var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
           return Promise.all(deletePromises)
-      }).then(=>{
+      }).then(()=>{
 
       e.waitUntil(
             caches.open(shellName).then(function(cache) {
