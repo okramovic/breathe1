@@ -78,8 +78,34 @@ self.addEventListener('fetch', function(e) {
 
       console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
 
+      e.respondWith(fromNetwork(e.request.url, 400).catch(function () {
+          return fromCache(e.request);
+      }));
+  
+  
+      function fromNetwork(request, timeout) {
+            return new Promise(function (resolve, reject) {
+
+                var timeoutId = setTimeout(reject, timeout);
+                
+                fetch(request).then(function (response) {
+                    clearTimeout(timeoutId);
+                    resolve(response);
+                }, reject);
+            });
+      }
+  
+      function fromCache(request) {
+        return caches.open(shellName).then(function (cache) {
+          return cache.match(request).then(function (matching) {
+            return matching || Promise.reject('no-match');
+          });
+        });
+      }
+  
+  
       // try to get new version from network
-      if (isShellFile()){
+      /*if (isShellFile()){
           console.log("it is app shell req >>", e.request.url)
 
           fetch(e.request.url).then(response =>{ 
@@ -105,7 +131,7 @@ self.addEventListener('fetch', function(e) {
               console.log("there was error in fetch event")
               console.error(e);
                 //throw e
-          })
+          })*/
           // add new files to cache?
           /*e.waitUntil(
             caches.open(shellName).then(function(cache) {
@@ -114,8 +140,8 @@ self.addEventListener('fetch', function(e) {
                   return cache.addAll(shellFiles);
             })
           );*/
-      }
-
+      //}
+  
       //else { // get files from cache
              //console.log()
       function useCache(e){
