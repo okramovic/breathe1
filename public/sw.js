@@ -1,6 +1,7 @@
 const shellName = "breathe_v01",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
+  "/",
   "/index.html",
   "/styles/style.css",
   "/styles/lake1.jpg",
@@ -14,22 +15,40 @@ self.addEventListener('install', function(e) {
       console.log('[ServiceWorker] Install');
 
       // delete old caches
-      caches.keys().then(ckeys=>{
-          console.log("cacheKeys")
-          console.log(ckeys)
+      //function delete(cb){
+          /*caches.keys().then(ckeys=>{
+              console.log("cacheKeys all")
+              console.log(ckeys)
 
-          var oldkeys = ckeys.filter(key=>{ return key !== shellName})
-          var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
-          return Promise.all(deletePromises)
-      })
+              var oldkeys = ckeys.filter(key=>{ return key !== shellName})
+              var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
+              return Promise.all(deletePromises)
+          })*/
+          setTimeout(()=>{
+                  /*e.waitUntil(
+                        caches.open(shellName).then(function(cache) {
+                              console.log('[ServiceWorker] installation: Caching app shell');
 
-      e.waitUntil(
-            caches.open(shellName).then(function(cache) {
-                  console.log('[ServiceWorker] installation: Caching app shell');
+                              return cache.addAll(shellFiles);
+                        })
+                  );*/
+            console.log("timeout test");
+          },2000)
+      //}
+      //delete(function(){
+        e.waitUntil(
+              caches.open(shellName)
+                .then(function(cache) {
+                    console.log('[ServiceWorker] installation: Caching app shell');
 
-                  return cache.addAll(shellFiles);
-            })
-      );
+                    return cache.addAll(shellFiles);
+                })
+                .then(function() {
+                  console.log('[install] All required resources have been cached');
+                  return self.skipWaiting();
+                })
+        );
+      //});
 });
 
 
@@ -37,6 +56,20 @@ self.addEventListener('install', function(e) {
 self.addEventListener('activate', function(e) {
 
       console.log('sw activated');
+  
+      e.waitUntil(
+          caches.keys().then(function(cacheNames) {
+            return Promise.all(
+              cacheNames.map(function(cacheName) {
+                console.log("activate: cache key filtering", cacheName);
+                
+                if (cacheName !== shellName) {
+                  return caches.delete(cacheName);
+                }
+              })
+            );
+          })
+      );
 })
 
 
@@ -45,9 +78,35 @@ self.addEventListener('fetch', function(e) {
 
       console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
 
+      e.respondWith(fromNetwork(e.request.url, 400).catch(function () {
+          return fromCache(e.request);
+      }));
+  
+  
+      function fromNetwork(request, timeout) {
+            return new Promise(function (resolve, reject) {
+
+                var timeoutId = setTimeout(reject, timeout);
+                
+                fetch(request).then(function (response) {
+                    clearTimeout(timeoutId);
+                    resolve(response);
+                }, reject);
+            });
+      }
+  
+      function fromCache(request) {
+        return caches.open(shellName).then(function (cache) {
+          return cache.match(request).then(function (matching) {
+            return matching || Promise.reject('no-match');
+          });
+        });
+      }
+  
+  
       // try to get new version from network
-      if (isShellFile()){
-          console.log("it is app shell req")
+      /*if (isShellFile()){
+          console.log("it is app shell req >>", e.request.url)
 
           fetch(e.request.url).then(response =>{ 
                 // add to cache
@@ -63,15 +122,16 @@ self.addEventListener('fetch', function(e) {
                     e.respondWith(
                     
                               caches.match(e.request).then(function(response) {
-                                        console.log(response)
-                                return response ||  fetch(e.request)
+                                        console.log("caches match response",response)
+                                return fetch(e.request) || response
                               })
                     );
                 }
           }).catch(e=>{
+              console.log("there was error in fetch event")
               console.error(e);
                 //throw e
-          })
+          })*/
           // add new files to cache?
           /*e.waitUntil(
             caches.open(shellName).then(function(cache) {
@@ -80,8 +140,8 @@ self.addEventListener('fetch', function(e) {
                   return cache.addAll(shellFiles);
             })
           );*/
-      }
-
+      //}
+  
       //else { // get files from cache
              //console.log()
       function useCache(e){
@@ -90,7 +150,7 @@ self.addEventListener('fetch', function(e) {
           
                     caches.match(e.request).then(function(response) {
                               console.log(response)
-                        return response || fetch(e.request)
+                        return fetch(e.request) || response
                     })
               );
       }       
