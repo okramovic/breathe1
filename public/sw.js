@@ -56,7 +56,7 @@ self.addEventListener('activate', function(e) {
               cacheNames.map(function(cacheName) {
                 console.log("activate: cache key filtering", cacheName);
                 
-                if (chacheName !== shellName) {
+                if (cacheName !== shellName) {
                   return caches.delete(cacheName);
                 }
               })
