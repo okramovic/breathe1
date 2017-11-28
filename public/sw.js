@@ -38,7 +38,7 @@ self.addEventListener('activate', function(e) {
 
       console.log('sw activated');
   
-      event.waitUntil(
+      e.waitUntil(
           caches.keys().then(function(cacheNames) {
             return Promise.all(
               cacheNames.map(function(cacheName) {
