@@ -14,22 +14,34 @@ self.addEventListener('install', function(e) {
       console.log('[ServiceWorker] Install');
 
       // delete old caches
-      /*caches.keys().then(ckeys=>{
-          console.log("cacheKeys all")
-          console.log(ckeys)
+      //function delete(cb){
+          caches.keys().then(ckeys=>{
+              console.log("cacheKeys all")
+              console.log(ckeys)
 
-          var oldkeys = ckeys.filter(key=>{ return key !== shellName})
-          var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
-          return Promise.all(deletePromises)
-      })*/
+              var oldkeys = ckeys.filter(key=>{ return key !== shellName})
+              var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
+              return Promise.all(deletePromises)
+          })
+          setTimeout(()=>{
+                  e.waitUntil(
+                        caches.open(shellName).then(function(cache) {
+                              console.log('[ServiceWorker] installation: Caching app shell');
 
-      e.waitUntil(
-            caches.open(shellName).then(function(cache) {
-                  console.log('[ServiceWorker] installation: Caching app shell');
+                              return cache.addAll(shellFiles);
+                        })
+                  );
+          },2000)
+      //}
+      /*delete(function(){
+        e.waitUntil(
+              caches.open(shellName).then(function(cache) {
+                    console.log('[ServiceWorker] installation: Caching app shell');
 
-                  return cache.addAll(shellFiles);
-            })
-      );
+                    return cache.addAll(shellFiles);
+              })
+        );
+      });*/
 });
 
 
@@ -42,6 +54,8 @@ self.addEventListener('activate', function(e) {
           caches.keys().then(function(cacheNames) {
             return Promise.all(
               cacheNames.map(function(cacheName) {
+                console.log("activate: cache key filtering", cacheName);
+                
                 if (chacheName !== shellName) {
                   return caches.delete(cacheName);
                 }
