@@ -1,4 +1,4 @@
-const shellName = "breathe_v02",
+const shellName = "breathe_v01",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
   "/",
@@ -37,11 +37,16 @@ self.addEventListener('install', function(e) {
       //}
       //delete(function(){
         e.waitUntil(
-              caches.open(shellName).then(function(cache) {
+              caches.open(shellName)
+                .then(function(cache) {
                     console.log('[ServiceWorker] installation: Caching app shell');
 
                     return cache.addAll(shellFiles);
-              })
+                })
+                .then(function() {
+                  console.log('[install] All required resources have been cached');
+                  return self.skipWaiting();
+                })
         );
       //});
 });
@@ -75,7 +80,7 @@ self.addEventListener('fetch', function(e) {
 
       // try to get new version from network
       if (isShellFile()){
-          console.log("it is app shell req")
+          console.log("it is app shell req >>", e.request.url)
 
           fetch(e.request.url).then(response =>{ 
                 // add to cache
