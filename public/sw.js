@@ -14,14 +14,14 @@ self.addEventListener('install', function(e) {
       console.log('[ServiceWorker] Install');
 
       // delete old caches
-      caches.keys().then(ckeys=>{
+      /*caches.keys().then(ckeys=>{
           console.log("cacheKeys all")
           console.log(ckeys)
 
           var oldkeys = ckeys.filter(key=>{ return key !== shellName})
           var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
           return Promise.all(deletePromises)
-      })
+      })*/
 
       e.waitUntil(
             caches.open(shellName).then(function(cache) {
@@ -37,6 +37,18 @@ self.addEventListener('install', function(e) {
 self.addEventListener('activate', function(e) {
 
       console.log('sw activated');
+  
+      event.waitUntil(
+          caches.keys().then(function(cacheNames) {
+            return Promise.all(
+              cacheNames.map(function(cacheName) {
+                if (chacheName !== shellName) {
+                  return caches.delete(cacheName);
+                }
+              })
+            );
+          })
+      );
 })
 
 
