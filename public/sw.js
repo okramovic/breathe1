@@ -24,13 +24,14 @@ self.addEventListener('install', function(e) {
               return Promise.all(deletePromises)
           })
           setTimeout(()=>{
-                  e.waitUntil(
+                  /*e.waitUntil(
                         caches.open(shellName).then(function(cache) {
                               console.log('[ServiceWorker] installation: Caching app shell');
 
                               return cache.addAll(shellFiles);
                         })
-                  );
+                  );*/
+            console.log("timeout test");
           },2000)
       //}
       /*delete(function(){
@@ -89,12 +90,13 @@ self.addEventListener('fetch', function(e) {
                     e.respondWith(
                     
                               caches.match(e.request).then(function(response) {
-                                        console.log(response)
-                                return response ||  fetch(e.request)
+                                        console.log("caches match response",response)
+                                return fetch(e.request) || response
                               })
                     );
                 }
           }).catch(e=>{
+              console.log("there was error in fetch event")
               console.error(e);
                 //throw e
           })
