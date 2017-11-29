@@ -12,39 +12,64 @@
 
   </head>
   <body>
-    <div style="width: 100%; padding: 0px 20px 0px; background-color: rgba(24, 58, 153, 0.4); border-radius: 10px; margin: 0px 0px 20px;
-               display: flex;flex-direction:column; align-items: center;">
+    <div style="width: 100%; padding: 15px 20px 0px; background-color: rgba(24, 58, 153, 0.4); margin: 0px 0px 20px;
+               display: flex; flex-direction:column; align-items: center;">
       <h2>breathing timer</h2>
       <h6>reminds you to breathe in deeply</h6>
     </div>
     
 
 
-    <button id="once">play sound 1x</button>
-    <br><br>
+    <!--button id="once">play sound 1x</button>
+      <br><br>
 
-    <p>timer will play sound after 15 sec</p>
-    <button id="timer">set timer</button>
+      <p>timer will play sound after 15 sec</p>
+      <button id="timer">set timer</button-->
 
-    <p>timer plays each 10 seconds</p>
-    <button id="interval">set interval</button>
+    <div style="display:flex"><p>timer plays each 4500ms</p>
+        <button id="interval">try interval</button>
+    </div>
+
+    <br/><br/><br/>
+    <button id="timerAdd">add new timer</button>
+
+    <div id="userTimers">
+    </div>
     
-    
-    <audio id="falcon">
-      <!--source src="https://cdn.glitch.com/b766c17a-7343-4964-a8e5-8496ed10e4bb%2FFalcon-Mark_Mattingly-169493032.mp3?1511355378662">
+    <!--audio id="falcon">
+      <!source src="https://cdn.glitch.com/b766c17a-7343-4964-a8e5-8496ed10e4bb%2FFalcon-Mark_Mattingly-169493032.mp3?1511355378662">
       <source src="https://cdn.glitch.com/b766c17a-7343-4964-a8e5-8496ed10e4bb%2FFalcon-Mark_Mattingly-169493032.mp3"-->
-      <source src="./resources/falcon.mp3">
-
-    </audio>
-    <audio id="woodblock">
-        <!-- comes from https://www.soundsnap.com/woodblock_bpm_100_5_shriek_2011 -->
+      <!--source src="./resources/falcon.mp3">
+      </audio-->
+    <!-- comes from https://www.soundsnap.com/woodblock_bpm_100_5_shriek_2011 -->
+    <audio id="woodblock_100_5">
         <source src="./resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3">
     </audio>
+    <audio id="korimako"><source src="./resources/mynoise_korimako_new_zealand_1.mp3">korimako</audio>
+    <audio id="garden"><source src="./resources/mynoise_birds_random_palmgarden.mp3" >garden</audio>
+    <audio id="cuckoo"><source src="./resources/mynoise_birds_coockoo.mp3">cuckoo</audio>
+    <audio id="crickets"><source src="./resources/mynoise_frogs_crickets_ricefield_mycookie.mp3">crickets</audio>
+    <audio id="lark"><source src="./resources/soundsnap_bird_MYEDIT_LESSER_SHORT_TOED_LARK_SONG_KAZ_200502.mp3">lark</audio>
+    <audio id="caxixi"><source src="./resources/soundsnap_caxixi_BPM_130_12_SHRIEK_2011.mp3">caxixi</audio> 
+    <audio id="modem"><source src="./resources/soundsnap_MODEM_DIAL_LOGON_AND_CONNECT_2_MYEDIT.mp3" >modem</audio> 
+    <audio id="fax"><source src="./resources/soundsnap_fax_11507101_receiving.mp3">fax</audio> 
+    <audio id="bowl light"><source src="./resources/soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3">bowl light</audio> 
+    <audio id="bowl deep"><source src="./resources/soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3" >bowl deep</audio> 
+    <audio id="bowl gradual"><source src="./resources/soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3">bowl gradual</audio> 
+    <audio id="woodblock cool"><source src="./resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3">woodblock cool</audio> 
+    <audio id="woodblock simple"><source src="./resources/soundsnap_woodblock_BPM_100_9_SHRIEK_2011_MYEDIT.mp3">woodblock simple</audio> 
+    <audio id="woodblock thoughtful"><source src="./resources/soundsnap_woodblock_BPM_100_18_SHRIEK_2011.mp3">woodblock thoughtful</audio> 
+    <audio id="woodblock master-plan"><source src="./resources/soundsnap_woodblock_BPM_100_26_SHRIEK_2011.mp3">woodblock master-plan</audio> 
+    <audio id="woodblock rascal"><source src="./resources/soundsnap_woodblock_BPM_100_27_SHRIEK_2011.mp3">woodblock rascal</audio> 
+    <audio id="woodblock chinese"><source src="./resources/soundsnap_woodblock_BPM_120_5_SHRIEK_2011.mp3" >woodblock chinese</audio> 
+    <audio id="woodblock intermezzo"><source src="./resources/soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3">woodblock intermezzo</audio>
+
+
     <br/>
     <br/>
     <br/>
     <!--img style="" src="./resources/boy.jpg" alt="boy scared seeing pc"-->
-    <h2>test six</h2>
+    <h2>v 6</h2>
     <div id="cons"></div>
   </body>
 </html>

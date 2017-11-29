@@ -1,13 +1,13 @@
 const shellName = "breathe_v01",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
-  "/",
+  //"/",
   "/index.html",
   "/styles/style.css",
   "/styles/lake1.jpg",
   "/scripts/app.js",
   "/scripts/webworker.js",
-  "/resources/falcon.mp3",
+  //"/resources/falcon.mp3",
   "/resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3"
 ]
 
@@ -32,7 +32,7 @@ self.addEventListener('install', function(e) {
                               return cache.addAll(shellFiles);
                         })
                   );*/
-            console.log("timeout test");
+            //console.log("timeout test");
           },2000)
       //}
       //delete(function(){
@@ -76,7 +76,7 @@ self.addEventListener('activate', function(e) {
 // offline serving
 self.addEventListener('fetch', function(e) {
 
-      console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
+      //console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
 
       e.respondWith(fromNetwork(e.request.url, 400).catch(function () {
           return fromCache(e.request);

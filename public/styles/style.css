@@ -37,3 +37,11 @@ button{
   border-radius: 4px;
   background-color: none;
 }
+input[type="text"], input[type="number"]{
+    text-align: center;
+}
+
+input[type="text"]:disabled, input[type="number"]:disabled{
+    color: rgb(190, 190, 190);
+
+}
