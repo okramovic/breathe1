@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded',function(ev){
       }
   })
 function setMyInterval(){
-    if (woodblock) woodblock.play()
+    //if (woodblock) woodblock.play()
     
     if (alarm === 0){
         //alarm = 1

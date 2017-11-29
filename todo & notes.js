@@ -34,9 +34,22 @@
 
 
     create https server = have http server and add https certificate to it        
-
-
+*/
+/*
     TODO
+    - find 9 sounds and add them to app
+    - make UI to set sounds for max 3 alarms
 
+
+    DONE
     - make it play both sounds offline
 */
+
+
+
+/**
+ *       possible sound candidates, but not in resources folder
+ *          https://www.soundsnap.com/cajon_bpm_100_27_shriek_2011
+ * 
+ * 
+ */
