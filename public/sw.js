@@ -7,8 +7,25 @@ shellFiles = [
   "/styles/lake1.jpg",
   "/scripts/app.js",
   "/scripts/webworker.js",
-  //"/resources/falcon.mp3",
-  "/resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3"
+  //
+  "/resources/mynoise_korimako_new_zealand_1.mp3",
+  "/resources/mynoise_birds_random_palmgarden.mp3",
+  "/resources/mynoise_birds_coockoo.mp3",
+  "/resources/mynoise_frogs_crickets_ricefield_mycookie.mp3",
+  "/resources/soundsnap_bird_MYEDIT_LESSER_SHORT_TOED_LARK_SONG_KAZ_200502.mp3",
+  "/resources/soundsnap_caxixi_BPM_130_12_SHRIEK_2011.mp3",
+  "/resources/soundsnap_MODEM_DIAL_LOGON_AND_CONNECT_2_MYEDIT.mp3",
+  "/resources/soundsnap_fax_11507101_receiving.mp3",
+  "/resources/soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3",
+  "/resources/soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3",
+  "/resources/soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3",
+  "/resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3",
+  "/resources/soundsnap_woodblock_BPM_100_9_SHRIEK_2011_MYEDIT.mp3",
+  "/resources/soundsnap_woodblock_BPM_100_18_SHRIEK_2011.mp3",
+  "/resources/soundsnap_woodblock_BPM_100_26_SHRIEK_2011.mp3",
+  "/resources/soundsnap_woodblock_BPM_100_27_SHRIEK_2011.mp3",
+  "/resources/soundsnap_woodblock_BPM_120_5_SHRIEK_2011.mp3",
+  "/resources/soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3"
 ]
 
 self.addEventListener('install', function(e) {
