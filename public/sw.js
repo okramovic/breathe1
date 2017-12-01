@@ -4,6 +4,7 @@ shellFiles = [
   //"/",
   "/index.html",
   "/styles/style.css",
+  "/styles/classes.css",
   "/styles/lake1.jpg",
   "/scripts/app.js",
   "/scripts/webworker.js",

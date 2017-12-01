@@ -34,16 +34,16 @@ document.addEventListener('DOMContentLoaded',function(ev){
 
       timerAdd.addEventListener('click', function(){
 
-                let userTimers = document.getElementById('userTimers')
+                let timerSettings = document.getElementById('newTimerSettings')
                 var Sound = null
 
-                let node = document.createElement('div')
-                    node.id = "newTimerSettings"
-                    node.style= "background-color: rgba(24, 58, 153, 0.2);"
-                createTimerMenu.call(node,'maminka')
+                let node = document.getElementById('newTimerSettings') 
+                    
+                createTimerMenu.call(node,'test string')
 
-                userTimers.appendChild(node)
+                //timerSettings.innerHTML = node
 
+                // preview sound 
                 document.getElementById('soundSelection').addEventListener('change',(ev)=>{
                             console.log(ev)
 
@@ -124,11 +124,9 @@ document.addEventListener('DOMContentLoaded',function(ev){
                             // create interval 
                                 window.timers[timerName] = {}
                                 window.timers[timerName].name = timerName
-                                //setInterval(function(){},)
                                 window.timers[timerName].interval = interval
                                 window.timers[timerName].repeats = repeats
                                 window.timers[timerName].remains = repeats
-                                //window.timers[timerName].sound = Sound
                                 window.timers[timerName].endDate = getEndDate()
                                 window.timers[timerName].timer = myTimer.apply(window.timers[timerName], [myArgs])
 
@@ -246,14 +244,20 @@ function createTimerMenu(node){
         //console.log(node)
 
         console.log(this)
-        this.setAttribute('style', 'display: flex; flex-direction: column; align-items: center')
+        this.setAttribute('style', 'display: flex;') //flex-direction: column; align-items: center')
 
         this.innerHTML = 
-                    '<label>what you want to be reminded of:</label>' +
+                    '<h5 class="cancel" id="cancelAddTimer">cancel</h5>' +
+                    //'<div>' +        
+                    //'</div>' + 
+
+                    '<h3>setting new timer</h3>' +
+
+                    '<h4>reminded me to:</h4>' +
                     '<input id="newTimerText" type="text" value="test" placeholder="sit with my back straight">' +
                     '<br/>' +
 
-                    '<label>choose sound</label>'+
+                    '<h4>choose sound</h4>'+
                     '<select id="soundSelection">'+
                         '<option value="mynoise_korimako_new_zealand_1.mp3" ' +
                                 '>korimako</option>' + 
@@ -292,20 +296,62 @@ function createTimerMenu(node){
                         '<option value="soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3" '+
                                 '>woodblock intermezzo</option>' + 
                     '</select>' + 
-
-                    '<br/>' +
-                    '<label >interval (minutes)</label >' + 
-                    '<input id="newTimerInterval" type="number" value="1">' +
                     '<br/>' +
 
-                    '<label>how many times its repeated</label>' +
-                    '<label>it ends after 5 repeats</label>' + 
-                    '<input id="newTimerRepeats" type="number" disabled>' +
-                    '<br/>' + '<br/>' +
+                    '<h4>repeats</h4>'+
+                    '<div class="full horiz around botMar25" style="border: 1px solid">' + 
+
+                        '<div class="vert" style="padding: 15px 0px">' +
+                            '<label >interval (mins)</label >' + 
+                            '<input id="newTimerInterval" type="number" min="1" value="2">' +
+                        '</div>' +   
+
+                        '<div class="vert" style="padding: 15px 0px">' +   
+                            '<div id="repeatsNumber">' + 
+                                '<label id="repeatLabel">repeats</label >' + 
+                                '<input id="newTimerRepeats" type="number" min="1" value="2">' +
+                            '</div>' + 
+                        
+                            '<div class="horiz topMar15">' +
+                                '<label >indefinite</label >' + 
+                                '<input id="indefiniteRepeat" type="checkbox">' +
+                            '</div>' +       
+                        '</div>' +       
+                    '</div>' + 
+
+
+                    '<div class="full horiz around botMar25" style="border: 1px solid">' + 
+                        '<h4>sounds only</h4>'+
+                        '<input id="loudMin" type="number" min="0" max="23" value="10">' +
+                        '<span>till</span>' +
+                        '<input id="loudMax" type="number" min="0" max="23" value="23">' +
+                    '</div>' + 
+
                     '<button id="confirmNewTimer">set timer</button>' 
 
         ;
-        
+        // cancelling new timer
+        document.getElementById('cancelAddTimer').addEventListener('click',(ev)=>{
+                document.getElementById('newTimerSettings').innerHTML = ''
+                document.getElementById('newTimerSettings').style.display = 'none'
+        })
+        // inifinite repeat chanage
+        document.getElementById('indefiniteRepeat').addEventListener('change',(ev)=>{
+                        console.log("checked?",ev.srcElement.checked)
+                        let active = ev.srcElement.checked
+                        if (active){
+                                document.getElementById('newTimerRepeats').disabled = true;  
+                                //document.getElementById('repeatsNumber').style.textDecoration = 'line-through'
+                                document.getElementById('repeatLabel').style.color = 'gray'
+
+                                
+                        } else {
+                                document.getElementById('newTimerRepeats').disabled = false;
+                                //document.getElementById('repeatsNumber').style.textDecoration = 'none'
+                                document.getElementById('repeatLabel').style.color = 'black'
+                        }
+        })
+
         /*document.getElementById('soundSelection').addEventListener('change',()=>{
                     let demo = document.querySelectorAll('audio').children
 
