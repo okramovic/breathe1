@@ -28,3 +28,11 @@
 .botMar25{
   margin-bottom: 25px;
 }
+
+
+.timerLIExpanded{
+  border: 1px solid black;
+  border-radius: 4px;
+
+  padding: 10px;
+}
