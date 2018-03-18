@@ -52,6 +52,9 @@ button{
   border-radius: 4px;
   background-color: none;
 }
+button:active, button:focus{
+     outline: none;
+}
 input[type="text"], input[type="number"]{
     height: 35px;
 
@@ -79,6 +82,10 @@ input[type="number"]{
 select{
   text-align: center;
   text-align-last: center;
+  border: 1px solid black;
+}
+select:active, select:focus{
+     outline: none;
 }
 
 #newTimerSettings{

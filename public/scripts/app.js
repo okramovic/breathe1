@@ -4,7 +4,8 @@
 var alarm = 0
 var timers = {}
 var workers = {}
-
+let Sound
+let previewTimer
 
 if ('serviceWorker' in navigator){
   
@@ -36,26 +37,27 @@ document.addEventListener('DOMContentLoaded',function(ev){
       timerAdd.addEventListener('click', function(){
 
                 //let timerSettings = document.getElementById('newTimerSettings')
-                //var Sound = null
+                Sound = document.querySelectorAll('audio')[1]
 
                 let node = document.getElementById('newTimerSettings')
 
                 // prevent button to open more than 1 timer
-                if (node.innerHTML != '') return
+                if (node.innerHTML !== '') return;
 
                     
                 createTimerMenu.call(node,'test string')
 
                 // preview sound 
                 document.getElementById('soundSelection').addEventListener('change',(ev)=>{
-                            console.log(ev)
+                            //console.log(ev)
+                            Sound.pause()
 
                             let choice = ev.srcElement.selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
                             console.log("choice index",choice, ev.srcElement.selectedOptions[0].value)
 
                             let demo = document.querySelectorAll('audio')//.children
                             Sound = demo[choice]
-                            Sound.play()
+                            
 
                             /*let arr = nodesToArr.call(demo,demo.length)
                                 //console.log(arr, Array.isArray(arr));
@@ -375,44 +377,47 @@ function createTimerMenu(node){
                     '<br/>' +
 
                     '<h4>choose sound</h4>'+
-                    '<select id="soundSelection">'+
-                        '<option value="mynoise_korimako_new_zealand_1.mp3" ' +
-                                '>korimako</option>' + 
-                        '<option value="mynoise_birds_random_palmgarden.mp3" ' +
-                                '>garden</option>' + 
-                        '<option value="mynoise_birds_coockoo.mp3" ' +
-                                '>cuckoo</option>' + 
-                        '<option value="mynoise_frogs_crickets_ricefield_mycookie.mp3" ' +
-                                '>crickets</option>' + 
-                        '<option value="soundsnap_bird_MYEDIT_LESSER_SHORT_TOED_LARK_SONG_KAZ_200502.mp3" '+
-                                '>lark</option>' + 
-                        '<option value="soundsnap_caxixi_BPM_130_12_SHRIEK_2011.mp3"'+
-                                '>caxixi</option>' + 
-                        '<option value="soundsnap_MODEM_DIAL_LOGON_AND_CONNECT_2_MYEDIT.mp3" ' +
-                                '>modem</option>' + 
-                        '<option value="soundsnap_fax_11507101_receiving.mp3" '+
-                                '>fax</option>' + 
-                        '<option value="soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3" '+
-                                '>bowl light</option>' + 
-                        '<option value="soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3" ' +
-                                '>bowl deep</option>' + 
-                        '<option value="soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3" '+
-                                '>bowl gradual</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3" '+
-                                '>woodblock cool</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_100_9_SHRIEK_2011_MYEDIT.mp3" '+
-                                '>woodblock simple</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_100_18_SHRIEK_2011.mp3" '+
-                                '>woodblock thoughtful</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_100_26_SHRIEK_2011.mp3" '+
-                                '>woodblock master-plan</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_100_27_SHRIEK_2011.mp3" '+
-                                '>woodblock rascal</option>' + 
-                        '<option value="soundsnap_woodblock_BPM_120_5_SHRIEK_2011.mp3" '+
-                                '>woodblock chinese</option>' + 
-                        '<option value="soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3" '+
-                                '>woodblock intermezzo</option>' + 
-                    '</select>' + 
+                    '<div class="full flex around">' + 
+                         '<select id="soundSelection">'+
+                              '<option value="mynoise_korimako_new_zealand_1.mp3" ' +
+                                        '>korimako</option>' + 
+                              '<option value="mynoise_birds_random_palmgarden.mp3" ' +
+                                        '>garden</option>' + 
+                              '<option value="mynoise_birds_coockoo.mp3" ' +
+                                        '>cuckoo</option>' + 
+                              '<option value="mynoise_frogs_crickets_ricefield_mycookie.mp3" ' +
+                                        '>crickets</option>' + 
+                              '<option value="soundsnap_bird_MYEDIT_LESSER_SHORT_TOED_LARK_SONG_KAZ_200502.mp3" '+
+                                        '>lark</option>' + 
+                              '<option value="soundsnap_caxixi_BPM_130_12_SHRIEK_2011.mp3"'+
+                                        '>caxixi</option>' + 
+                              '<option value="soundsnap_MODEM_DIAL_LOGON_AND_CONNECT_2_MYEDIT.mp3" ' +
+                                        '>modem</option>' + 
+                              '<option value="soundsnap_fax_11507101_receiving.mp3" '+
+                                        '>fax</option>' + 
+                              '<option value="soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3" '+
+                                        '>bowl light</option>' + 
+                              '<option value="soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3" ' +
+                                        '>bowl deep</option>' + 
+                              '<option value="soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3" '+
+                                        '>bowl gradual</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3" '+
+                                        '>woodblock cool</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_100_9_SHRIEK_2011_MYEDIT.mp3" '+
+                                        '>woodblock simple</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_100_18_SHRIEK_2011.mp3" '+
+                                        '>woodblock thoughtful</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_100_26_SHRIEK_2011.mp3" '+
+                                        '>woodblock master-plan</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_100_27_SHRIEK_2011.mp3" '+
+                                        '>woodblock rascal</option>' + 
+                              '<option value="soundsnap_woodblock_BPM_120_5_SHRIEK_2011.mp3" '+
+                                        '>woodblock chinese</option>' + 
+                              '<option value="soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3" '+
+                                        '>woodblock intermezzo</option>' + 
+                         '</select>' + 
+                         '<button id="previewSound">hear it</button>' +
+                    '</div>' +
                     '<br/>' +
 
                     '<h4>repeats</h4>'+
@@ -442,12 +447,12 @@ function createTimerMenu(node){
                     '</div>' + 
 
 
-                    '<div class="full horiz around botMar25" style="border: 1px solid">' + 
+               /*     '<div class="full horiz around botMar25" style="border: 1px solid">' + 
                         '<h4>sounds only</h4>'+
                         '<input id="loudMin" type="number" min="0" max="23" value="10">' +
                         '<span>till</span>' +
                         '<input id="loudMax" type="number" min="0" max="23" value="23">' +
-                    '</div>' + 
+                    '</div>' + */
 
                     '<button id="confirmNewTimer">set timer</button>' 
 
@@ -457,7 +462,7 @@ function createTimerMenu(node){
                 document.getElementById('newTimerSettings').innerHTML = ''
                 document.getElementById('newTimerSettings').style.display = 'none'
         })
-        // inifinite repeat chanage
+        // inifinite repeat change
         document.getElementById('indefiniteRepeat').addEventListener('change',(ev)=>{
                         console.log("checked?",ev.srcElement.checked)
                         let active = ev.srcElement.checked
@@ -473,6 +478,21 @@ function createTimerMenu(node){
                                 document.getElementById('repeatLabel').style.color = 'black'
                         }
         })
+        document.querySelector('#previewSound').addEventListener('click', ev =>{
+             
+               let choice = document.querySelector('#soundSelection').selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
+               console.log("choice index",choice, document.querySelector('#soundSelection').selectedOptions[0].value)
+
+               const previewSound = document.querySelectorAll('audio')[choice]
+               previewSound.currentTime = 0
+
+               //console.log(Sound === previewSound)
+
+               if (previewTimer) clearTimeout(previewTimer)
+               previewSound.play()
+               previewTimer = setTimeout(()=>previewSound.pause(), 5000)
+        })
+
 
         /*document.getElementById('soundSelection').addEventListener('change',()=>{
                     let demo = document.querySelectorAll('audio').children
@@ -488,9 +508,6 @@ function createTimerMenu(node){
 }
 
 function getEndDate(){
-
-
-
 }
 /*function nodesToArr(len){
 

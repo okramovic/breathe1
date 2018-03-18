@@ -5,7 +5,10 @@
   width: 100%;
 }
 
-
+.flex{
+  display: flex;
+  align-items: center; 
+}
 .horiz{
   display: flex;
   align-items: center;

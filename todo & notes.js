@@ -37,8 +37,6 @@
 */
 /*
     TODO
-    - sounds dont autoplay on select change
-    - there is a button next to select that plays selected sound if needed
     - i can save a timer preset (local storage)
     - i can see all my saved presets at top of app
     - i can use my preset
@@ -47,14 +45,23 @@
           (like 1,2,3 for repeats  |  for interval 30,45,60,65 )
 
 
+
+
     DONE
     - make it play both sounds offline
     - find 9 sounds and add them to app
+    - sounds dont autoplay on select change
+    - there is a button next to select that plays selected sound if needed
     
+
     
+
     no
     - make UI to set sounds for max 3 alarms
 */
+
+
+
 
 
 
