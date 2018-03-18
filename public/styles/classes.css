@@ -32,6 +32,11 @@
   margin-bottom: 25px;
 }
 
+button.smallBut{
+     width: 32px;
+     height: 32px;
+     margin: 0px 3px;
+}
 
 .timerLIExpanded{
   border: 1px solid black;

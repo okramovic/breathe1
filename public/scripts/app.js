@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded',function(ev){
 
       timerAdd.addEventListener('click', function(){
 
+               toggleAddTimerButton('none')
+
                 //let timerSettings = document.getElementById('newTimerSettings')
                 Sound = document.querySelectorAll('audio')[1]
 
@@ -137,11 +139,11 @@ document.addEventListener('DOMContentLoaded',function(ev){
                             // set repeats
                                 let repeats = null
                                 // if indef is checked
-                                if (document.getElementById('indefiniteRepeat').checked){
-                                        console.log("indefinite repeats")
-                                        repeats = -2
+                                //if (document.getElementById('indefiniteRepeat').checked){
+                                //        console.log("indefinite repeats")
+                                //        repeats = -2
 
-                                } else {
+                                //} else {
                                         //console.log("indefinite NOT")
                                         if (  document.getElementById('newTimerRepeats').value < 1  ||  
                                                 isNaN(parseInt(document.getElementById('newTimerRepeats').value))) {
@@ -153,16 +155,16 @@ document.addEventListener('DOMContentLoaded',function(ev){
                                         repeats = parseInt(document.getElementById('newTimerRepeats').value) || 5
                                         console.log("repeats", repeats)
 
-                                }
-                            // set loud daytime
+                                //}
+                             // set loud daytime
                                 
-                                let from = parseInt( document.getElementById('loudMin').value ) || 10
+                                /*let from = parseInt( document.getElementById('loudMin').value ) || 10
                                 let till = parseInt( document.getElementById('loudMax').value ) || 23
 
                                 if ( till <= from) {
                                         alert('"From" must be earlier time than "To"')
                                         return
-                                }
+                                }*/
                                 
                             //
                             
@@ -173,8 +175,8 @@ document.addEventListener('DOMContentLoaded',function(ev){
                                 window.timers[timerName].active = true
                                 window.timers[timerName].soundName = Sound.getAttribute('id')
                                 window.timers[timerName].loud = true
-                                window.timers[timerName].from = from
-                                window.timers[timerName].till = till
+                                //window.timers[timerName].from = from
+                                //window.timers[timerName].till = till
                                 window.timers[timerName].units = (units===1)? " sec":" min"
                                 window.timers[timerName].interval = interval * 1000
                                 window.timers[timerName].repeats = repeats
@@ -189,6 +191,7 @@ document.addEventListener('DOMContentLoaded',function(ev){
 
                                 newMenu.innerHTML = '' 
                                 newMenu.style.display = 'none'
+                                toggleAddTimerButton('block')
                             // add this timer to active timers div    
                 })
       })
@@ -286,9 +289,9 @@ function addTimerToList(timer){
         div.innerHTML = '<h5 class="reminder">' + timer.name.replace(/_/g," ") + '</h5>' + 
                         '<p class="sound"> sound:' + timer.soundName + '</p>' + 
                         '<p class="interval"> interval:' + timer.interval/1000 + " " + timer.units + '</p>' + 
-                        '<p class="remains"> remains:' + timer.remains + '</p>' + 
-                        '<p class="from"> from:' + timer.from + '</p>' + 
-                        '<p class="till"> till:' + timer.till + '</p>' 
+                        '<p class="remains"> remains:' + timer.remains + '</p>' // +
+                        //'<p class="from"> from:' + timer.from + '</p>' + 
+                        //'<p class="till"> till:' + timer.till + '</p>' 
 
         if (timer.active) div.innerHTML += '<p class="status">active</p>'
         else div.innerHTML += '<p class="status">switched off</p>'
@@ -416,7 +419,7 @@ function createTimerMenu(node){
                               '<option value="soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3" '+
                                         '>woodblock intermezzo</option>' + 
                          '</select>' + 
-                         '<button id="previewSound">hear it</button>' +
+                         '<button id="previewSound" class="smallBut" style="width: auto;">preview</button>' +
                     '</div>' +
                     '<br/>' +
 
@@ -425,34 +428,49 @@ function createTimerMenu(node){
 
                         '<div class="vert" style="padding: 15px 0px">' +
                             '<label >interval</label >' + 
-                            '<input id="newTimerInterval" type="number" min="1" value="1">' +
-                            '<form id="timeUnits">'+
-                                '<input type="radio" name="timeUnits" value="1" checked >sec' + 
-                                '<input type="radio" name="timeUnits" value="60">mins' + 
-                            '</form>' +
+                            
+                           '<div class="horiz">' +
+                              '<input id="newTimerInterval" type="number" min="1" value="1">' +  
+                              '<form id="timeUnits" style="display: inline">'+
+                                   '<input type="radio" name="timeUnits" value="1" checked >sec' + 
+                                   '<input type="radio" name="timeUnits" value="60">mins' + 
+                              '</form>' +
+                           '</div>' +
+                           '<div style="margin-top: 1em;">' + 
+                              '<button class="smallBut" value="35"  >35s</button>' + 
+                              '<button class="smallBut" value="45"  >45s</button>' + 
+                              '<button class="smallBut" value="65"  >65s</button>' + 
+                              '<button class="smallBut" value="80"  >80s</button>' + 
+                           '</div>' + 
                         '</div>' +   
 
 
-                        '<div class="vert" style="padding: 15px 0px">' +   
-                            '<div id="repeatsNumber">' + 
-                                '<label id="repeatLabel">repeats</label >' + 
+                        '<div class="vert" style="padding: 15px 0px">' +
+                            '<label id="repeatLabel">repeats</label >' +
+                            //'<div id="repeatsNumber">' +
+                                
                                 '<input id="newTimerRepeats" type="number" min="1" value="1">' +
-                            '</div>' + 
+
+                                '<div class="horiz" style="margin-top: 1em;">' +
+                                   '<button id="add1Repeat"    class="smallBut" >+</button>' + 
+                                   '<button id="remove1Repeat" class="smallBut" >-</button>' + 
+                                '</div>' +   
+                           // '</div>' + 
                         
-                            '<div class="horiz topMar15">' +
-                                '<label >indefinite</label >' + 
-                                '<input id="indefiniteRepeat" type="checkbox" disabled>' +
-                            '</div>' +       
+                         //   '<div class="horiz topMar15">' +
+                         //       '<label >indefinite</label >' + 
+                         //       '<input id="indefiniteRepeat" type="checkbox" disabled>' +
+                         //   '</div>' +       
                         '</div>' +       
                     '</div>' + 
 
 
-               /*     '<div class="full horiz around botMar25" style="border: 1px solid">' + 
-                        '<h4>sounds only</h4>'+
-                        '<input id="loudMin" type="number" min="0" max="23" value="10">' +
-                        '<span>till</span>' +
-                        '<input id="loudMax" type="number" min="0" max="23" value="23">' +
-                    '</div>' + */
+                         /*     '<div class="full horiz around botMar25" style="border: 1px solid">' + 
+                         '<h4>sounds only</h4>'+
+                         '<input id="loudMin" type="number" min="0" max="23" value="10">' +
+                         '<span>till</span>' +
+                         '<input id="loudMax" type="number" min="0" max="23" value="23">' +
+                         '</div>' + */
 
                     '<button id="confirmNewTimer">set timer</button>' 
 
@@ -461,9 +479,10 @@ function createTimerMenu(node){
         document.getElementById('cancelAddTimer').addEventListener('click',(ev)=>{
                 document.getElementById('newTimerSettings').innerHTML = ''
                 document.getElementById('newTimerSettings').style.display = 'none'
+                toggleAddTimerButton('block')
         })
         // inifinite repeat change
-        document.getElementById('indefiniteRepeat').addEventListener('change',(ev)=>{
+        /*document.getElementById('indefiniteRepeat').addEventListener('change',(ev)=>{
                         console.log("checked?",ev.srcElement.checked)
                         let active = ev.srcElement.checked
                         if (active){
@@ -477,7 +496,7 @@ function createTimerMenu(node){
                                 //document.getElementById('repeatsNumber').style.textDecoration = 'none'
                                 document.getElementById('repeatLabel').style.color = 'black'
                         }
-        })
+        })*/
         document.querySelector('#previewSound').addEventListener('click', ev =>{
              
                let choice = document.querySelector('#soundSelection').selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
@@ -492,7 +511,19 @@ function createTimerMenu(node){
                previewSound.play()
                previewTimer = setTimeout(()=>previewSound.pause(), 5000)
         })
+        document.querySelectorAll('button.smallBut').forEach(el=> {
+               if (el.value) el.addEventListener('click', ev =>
+                    document.querySelector('#newTimerInterval').value = ev.srcElement.value
+               )
+          })
 
+        // +- repeats for new timer
+        document.querySelector('#add1Repeat').addEventListener('click', ev =>
+               document.querySelector('#newTimerRepeats').value++ 
+        )
+        document.querySelector('#remove1Repeat').addEventListener('click', ev =>
+               document.querySelector('#newTimerRepeats').value--
+        )
 
         /*document.getElementById('soundSelection').addEventListener('change',()=>{
                     let demo = document.querySelectorAll('audio').children
@@ -505,6 +536,11 @@ function createTimerMenu(node){
                 let soundHref = document.getElementById('soundSelection').selectedOptions[0].value
 
         })*/
+}
+
+function toggleAddTimerButton(type){
+     const but = document.querySelector('#timerAdd')
+     but.style.display = type
 }
 
 function getEndDate(){

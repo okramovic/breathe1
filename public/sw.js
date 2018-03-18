@@ -1,4 +1,4 @@
-const shellName = "breathe_v01.1",
+const shellName = "breathe_v01.2",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
   //"/",
@@ -96,7 +96,7 @@ self.addEventListener('fetch', function(e) {
 
       //console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
 
-      e.respondWith(fromNetwork(e.request.url, 400).catch(function () {
+      e.respondWith(fromNetwork(e.request.url, 2000).catch(function () {
           return fromCache(e.request);
       }));
   
