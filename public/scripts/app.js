@@ -370,7 +370,7 @@ function createTimerMenu(node){
 
                     '<h3>setting new timer</h3>' +
 
-                    '<h4>reminded me to:</h4>' +
+                    '<h4>remind me to:</h4>' +
                     '<input id="newTimerText" type="text" value="breathe in deeply" placeholder="sit with my back straight">' +
                     '<br/>' +
 
