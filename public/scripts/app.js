@@ -26,198 +26,203 @@ if ('serviceWorker' in navigator){
 
 document.addEventListener('DOMContentLoaded',function(ev){
     
-      // console.log("DOM loaded" ,ev)
+    // console.log("DOM loaded" ,ev)
+  
+    var falcon = document.getElementById('falcon')
+    var woodblock = document.getElementById('woodblock_100_5')
+    let once = document.getElementById('once')
     
-      var falcon = document.getElementById('falcon')
-      var woodblock = document.getElementById('woodblock_100_5')
-      let once = document.getElementById('once')
-      
-      let timerAdd = document.getElementById('timerAdd')
+    let timerAdd = document.getElementById('timerAdd')
 
-      timerAdd.addEventListener('click', function(){
+    timerAdd.addEventListener('click', function(){
 
-               toggleAddTimerButton('none')
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        context.resume();
 
-                //let timerSettings = document.getElementById('newTimerSettings')
-                Sound = document.querySelectorAll('audio')[1]
 
-                let node = document.getElementById('newTimerSettings')
+        toggleAddTimerButton('none')
 
-                // prevent button to open more than 1 timer
-                if (node.innerHTML !== '') return;
+        //let timerSettings = document.getElementById('newTimerSettings')
+        Sound = document.querySelectorAll('audio')[1]
 
+        let node = document.getElementById('newTimerSettings')
+
+        // prevent button to open more than 1 timer
+        if (node.innerHTML !== '') return;
+
+            
+        createTimerMenu.call(node,'test string')
+
+        // preview sound 
+        document.getElementById('soundSelection').addEventListener('change',(ev)=>{
+                    //console.log(ev)
+                    Sound.pause()
+
+                    let choice = ev.srcElement.selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
+                    console.log("choice index",choice, ev.srcElement.selectedOptions[0].value)
+
+                    let demo = document.querySelectorAll('audio')//.children
+                    Sound = demo[choice]
                     
-                createTimerMenu.call(node,'test string')
 
-                // preview sound 
-                document.getElementById('soundSelection').addEventListener('change',(ev)=>{
-                            //console.log(ev)
-                            Sound.pause()
+                    /*let arr = nodesToArr.call(demo,demo.length)
+                        //console.log(arr, Array.isArray(arr));
 
-                            let choice = ev.srcElement.selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
-                            console.log("choice index",choice, ev.srcElement.selectedOptions[0].value)
+                        // contains mp3 file names
+                        arr = arr.map((item)=>{ 
+                                        let origin = item.children[0].baseURI
+                                        let relPath = item.children[0].src.replace(origin + "resources/", "")
+                                        return relPath})
 
-                            let demo = document.querySelectorAll('audio')//.children
-                            Sound = demo[choice]
-                            
+                        //console.log(arr, Array.isArray(arr));
 
-                            /*let arr = nodesToArr.call(demo,demo.length)
-                                //console.log(arr, Array.isArray(arr));
+                        let xxx = arr.find((item)=>{ return item === choice })
+                    // aim: play sound*/
 
-                                // contains mp3 file names
-                                arr = arr.map((item)=>{ 
-                                                let origin = item.children[0].baseURI
-                                                let relPath = item.children[0].src.replace(origin + "resources/", "")
-                                                return relPath})
+        })
+        // form validation => adding new timer
+        document.getElementById('confirmNewTimer').addEventListener('click', ()=>{
+                    let newMenu = document.getElementById('newTimerSettings')
 
-                                //console.log(arr, Array.isArray(arr));
+                    function abort(){
+                                alert('you have to:\n1)  provide some description and \n2)  set interval larger than 0');
+                                //newMenu.parentNode.removeChild(newMenu)
+                    }
 
-                                let xxx = arr.find((item)=>{ return item === choice })
-                            // aim: play sound*/
-
-                })
-                // form validation => adding new timer
-                document.getElementById('confirmNewTimer').addEventListener('click', ()=>{
-                            let newMenu = document.getElementById('newTimerSettings')
-
-                            function abort(){
-                                        alert('you have to:\n1)  provide some description and \n2)  set interval larger than 0');
-                                        //newMenu.parentNode.removeChild(newMenu)
+                    // check if maximum amount of timers 5 hasnt been reached
+                            let props = 0
+                            for (var prop in window.timers){
+                                    console.log("prop", prop)
+                                    if (prop) props ++
                             }
+                            if (props > 5){
+                                alert('you have too many timers set, 3 is max')
+                                let newMenu = document.getElementById('newTimerSettings')
+                                newMenu.parentNode.removeChild(newMenu)
+                                return
+                            }
+                            //console.log('props', props)
+                    
+                    
+                    // set timer name
+                        let timerName = document.getElementById('newTimerText').value
+                        if (!timerName || timerName.trim()===""){   alert('there has to be some text set')
+                                                                    // set focus on that element
+                                                                    return
+                        }
+                        timerName = timerName.replace(/\s/g,"_")
+                    // check that this name isnt used already = prevent duplicities & bugs
 
-                            // check if maximum amount of timers 5 hasnt been reached
-                                    let props = 0
-                                    for (var prop in window.timers){
-                                            console.log("prop", prop)
-                                            if (prop) props ++
-                                    }
-                                    if (props > 5){
-                                        alert('you have too many timers set, 3 is max')
-                                        let newMenu = document.getElementById('newTimerSettings')
-                                        newMenu.parentNode.removeChild(newMenu)
+                        if (window.timers.hasOwnProperty(timerName)){
+                                alert('choose different timer name')
+                                // focus on element
+                                return
+                        }    
+
+                    // set sound
+                        let sounds = document.querySelectorAll('audio'),
+                            index = document.getElementById('soundSelection').selectedIndex + 1
+                        let Sound = sounds[index]
+                        let myArgs = []
+                            myArgs[0] = Sound
+                        console.log("Sound", Sound.getAttribute('id'), "\n")       // Array.isArray(myArgs)
+
+                    // set interval number in minutes
+
+                        let units = parseInt(document.querySelector('input[name="timeUnits"]:checked').value)
+                        
+                        let interval =  parseInt(document.getElementById('newTimerInterval').value) * units
+                        if (isNaN(interval) || interval <= 0 ){
+                                    alert('set proper interval')
+                                    // set focus on that element
+                                    return
+                        }
+                        console.log("interval",interval, typeof interval)
+                        document.getElementById('newTimerInterval').value = interval
+
+                    // set repeats
+                        let repeats = null
+                        // if indef is checked
+                        //if (document.getElementById('indefiniteRepeat').checked){
+                        //        console.log("indefinite repeats")
+                        //        repeats = -2
+
+                        //} else {
+                                //console.log("indefinite NOT")
+                                if (  document.getElementById('newTimerRepeats').value < 1  ||  
+                                        isNaN(parseInt(document.getElementById('newTimerRepeats').value))) {
+
+                                        alert('repeats must be higher than 0')
+                                        // focus element
                                         return
-                                    }
-                                    //console.log('props', props)
-                            
-                            
-                            // set timer name
-                                let timerName = document.getElementById('newTimerText').value
-                                if (!timerName || timerName.trim()===""){   alert('there has to be some text set')
-                                                                            // set focus on that element
-                                                                            return
                                 }
-                                timerName = timerName.replace(/\s/g,"_")
-                            // check that this name isnt used already = prevent duplicities & bugs
+                                repeats = parseInt(document.getElementById('newTimerRepeats').value) || 5
+                                console.log("repeats", repeats)
 
-                                if (window.timers.hasOwnProperty(timerName)){
-                                        alert('choose different timer name')
-                                        // focus on element
-                                        return
-                                }    
+                        //}
+                      // set loud daytime
+                        
+                        /*let from = parseInt( document.getElementById('loudMin').value ) || 10
+                        let till = parseInt( document.getElementById('loudMax').value ) || 23
 
-                            // set sound
-                                let sounds = document.querySelectorAll('audio'),
-                                    index = document.getElementById('soundSelection').selectedIndex + 1
-                                let Sound = sounds[index]
-                                let myArgs = []
-                                    myArgs[0] = Sound
-                                console.log("Sound", Sound.getAttribute('id'), "\n")       // Array.isArray(myArgs)
+                        if ( till <= from) {
+                                alert('"From" must be earlier time than "To"')
+                                return
+                        }*/
+                        
+                    //
+                    
 
-                            // set interval number in minutes
+                    // create interval 
+                        window.timers[timerName] = {}
+                        window.timers[timerName].name = timerName
+                        window.timers[timerName].active = true
+                        window.timers[timerName].soundName = Sound.getAttribute('id')
+                        window.timers[timerName].loud = true
+                        //window.timers[timerName].from = from
+                        //window.timers[timerName].till = till
+                        window.timers[timerName].units = (units===1)? " sec":" min"
+                        window.timers[timerName].interval = interval * 1000
+                        window.timers[timerName].repeats = repeats
+                        window.timers[timerName].remains = repeats//( (repeats === -1)? : )
+                        //window.timers[timerName].endDate = getEndDate()
+                        window.timers[timerName].timer = 
+                                        myTimer.apply(window.timers[timerName], [myArgs])
+                        
+                        //console.log("new timer\n", window.timers[timerName])
+                        //newMenu.parentNode.removeChild(newMenu)   
+                        addTimerToList(window.timers[timerName])
 
-                                let units = parseInt(document.querySelector('input[name="timeUnits"]:checked').value)
-                                
-                                let interval =  parseInt(document.getElementById('newTimerInterval').value) * units
-                                if (isNaN(interval) || interval <= 0 ){
-                                            alert('set proper interval')
-                                            // set focus on that element
-                                            return
-                                }
-                                console.log("interval",interval, typeof interval)
-                                document.getElementById('newTimerInterval').value = interval
+                        newMenu.innerHTML = '' 
+                        newMenu.style.display = 'none'
+                        toggleAddTimerButton('block')
+                    // add this timer to active timers div    
+        })
+    })
 
-                            // set repeats
-                                let repeats = null
-                                // if indef is checked
-                                //if (document.getElementById('indefiniteRepeat').checked){
-                                //        console.log("indefinite repeats")
-                                //        repeats = -2
+    if (window.Worker){
+      /*window.worker = new Worker('scripts/webworker.js')
 
-                                //} else {
-                                        //console.log("indefinite NOT")
-                                        if (  document.getElementById('newTimerRepeats').value < 1  ||  
-                                                isNaN(parseInt(document.getElementById('newTimerRepeats').value))) {
+      window.worker.onmessage = function(e){
+              console.log("received result from Worker", e.data)
+              console.log(e)
+              //if (e.data % 2===0) 
+              woodblock.play()
+              //alarm = 0
+      }*/
+      
 
-                                                alert('repeats must be higher than 0')
-                                                // focus element
-                                                return
-                                        }
-                                        repeats = parseInt(document.getElementById('newTimerRepeats').value) || 5
-                                        console.log("repeats", repeats)
+      //console.log("web worker")
+      //console.log(window.worker)
 
-                                //}
-                             // set loud daytime
-                                
-                                /*let from = parseInt( document.getElementById('loudMin').value ) || 10
-                                let till = parseInt( document.getElementById('loudMax').value ) || 23
+      //let interval = document.getElementById('interval')
+      //interval.addEventListener('click', setMyInterval)
 
-                                if ( till <= from) {
-                                        alert('"From" must be earlier time than "To"')
-                                        return
-                                }*/
-                                
-                            //
-                            
-
-                            // create interval 
-                                window.timers[timerName] = {}
-                                window.timers[timerName].name = timerName
-                                window.timers[timerName].active = true
-                                window.timers[timerName].soundName = Sound.getAttribute('id')
-                                window.timers[timerName].loud = true
-                                //window.timers[timerName].from = from
-                                //window.timers[timerName].till = till
-                                window.timers[timerName].units = (units===1)? " sec":" min"
-                                window.timers[timerName].interval = interval * 1000
-                                window.timers[timerName].repeats = repeats
-                                window.timers[timerName].remains = repeats//( (repeats === -1)? : )
-                                //window.timers[timerName].endDate = getEndDate()
-                                window.timers[timerName].timer = 
-                                                myTimer.apply(window.timers[timerName], [myArgs])
-                                
-                                //console.log("new timer\n", window.timers[timerName])
-                                //newMenu.parentNode.removeChild(newMenu)   
-                                addTimerToList(window.timers[timerName])
-
-                                newMenu.innerHTML = '' 
-                                newMenu.style.display = 'none'
-                                toggleAddTimerButton('block')
-                            // add this timer to active timers div    
-                })
-      })
-
-      if (window.Worker){
-        /*window.worker = new Worker('scripts/webworker.js')
-
-        window.worker.onmessage = function(e){
-                console.log("received result from Worker", e.data)
-                console.log(e)
-                //if (e.data % 2===0) 
-                woodblock.play()
-                //alarm = 0
-        }*/
-        
-
-        //console.log("web worker")
-        //console.log(window.worker)
-
-        //let interval = document.getElementById('interval')
-        //interval.addEventListener('click', setMyInterval)
-
-       } else {
-        document.getElementById('interval').innerHTML = "NO WEB WORKER"
-        alert('web worker no available')
-      }
+    } else {
+      document.getElementById('interval').innerHTML = "NO WEB WORKER"
+      alert('web worker no available')
+    }
   })
 function myTimer(args){
             //console.log("this", this)
