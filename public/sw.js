@@ -1,4 +1,4 @@
-const shellName = "breathe_v01.2.1",
+const shellName = "breathe_v01.2.02",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
   //"/",
@@ -29,74 +29,44 @@ shellFiles = [
   "/resources/soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3"
 ]
 
-self.addEventListener('install', function(e) {
-      console.log('[ServiceWorker] Install');
-
-      // delete old caches
-      //function delete(cb){
-          /*caches.keys().then(ckeys=>{
-              console.log("cacheKeys all")
-              console.log(ckeys)
-
-              var oldkeys = ckeys.filter(key=>{ return key !== shellName})
-              var deletePromises = oldkeys.map(oldkey=>{ caches.delete(oldkey)})
-              return Promise.all(deletePromises)
-          })*/
-          setTimeout(()=>{
-                  /*e.waitUntil(
-                        caches.open(shellName).then(function(cache) {
-                              console.log('[ServiceWorker] installation: Caching app shell');
-
-                              return cache.addAll(shellFiles);
-                        })
-                  );*/
-            //console.log("timeout test");
-          },2000)
-      //}
-      //delete(function(){
-        e.waitUntil(
-              caches.open(shellName)
-                .then(function(cache) {
-                    console.log('[ServiceWorker] installation: Caching app shell');
-
-                    return cache.addAll(shellFiles);
-                })
-                .then(function() {
-                  console.log('[install] All required resources have been cached');
-                  return self.skipWaiting();
-                })
-        );
-      //});
+self.addEventListener('install', e =>{  
+    e.waitUntil(
+        caches.open(shellName)
+        .then(cache =>{
+            console.log('[ServiceWorker] installation: Caching app shell');
+            return cache.addAll(shellFiles);
+        })
+        .then(() =>{
+            console.log('[install] All required resources have been cached');
+            return self.skipWaiting();
+        })
+    );
 });
 
+self.addEventListener('activate', e =>{
 
+    console.log('sw activated');
 
-self.addEventListener('activate', function(e) {
-
-      console.log('sw activated');
-  
-      e.waitUntil(
-          caches.keys().then(function(cacheNames) {
-            return Promise.all(
-              cacheNames.map(function(cacheName) {
-                console.log("activate: cache key filtering", cacheName);
-                
+    e.waitUntil(
+        caches.keys().then(cacheNames =>
+          Promise.all(
+            cacheNames.map(cacheName =>{
+                //console.log("activate: cache key filtering", cacheName);
                 if (cacheName !== shellName) {
+                  console.log('deleting cache of version', cacheName)
                   return caches.delete(cacheName);
                 }
-              })
-            );
-          })
-      );
+            })
+          )
+        )
+    );
 })
 
 
 // offline serving
 self.addEventListener('fetch', function(e) {
 
-      //console.log('[ServiceWorker] Fetch for ', e.request.url,"\n",e.request)
-
-      e.respondWith(fromNetwork(e.request.url, 2000).catch(function () {
+      e.respondWith(fromNetwork(e.request.url, 2000).catch(()=>{
           return fromCache(e.request);
       }));
   
@@ -161,16 +131,13 @@ self.addEventListener('fetch', function(e) {
       //}
   
       //else { // get files from cache
-             //console.log()
       function useCache(e){
-
-            return  e.respondWith(
-          
-                    caches.match(e.request).then(function(response) {
-                              console.log(response)
-                        return fetch(e.request) || response
-                    })
-              );
+          return  e.respondWith(
+              caches.match(e.request).then(response => {
+                  console.log(response)
+                  return fetch(e.request) || response
+              })
+          );
       }       
       
       
@@ -179,9 +146,8 @@ self.addEventListener('fetch', function(e) {
   function isShellFile(){
     
     return shellFiles.some(function(fileURL){
-
-                return e.request.url.includes(fileURL)
-           })
+        return e.request.url.includes(fileURL)
+    })
     // if req url contains any of itmes in "files" arr
   }
 });
