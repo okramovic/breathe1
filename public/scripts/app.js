@@ -368,15 +368,10 @@ function testTimer(){
 // node.innerHTML = new timerMenu()
 function createTimerMenu(node){
 
-        //console.log(node)
-
-        //console.log(this)
-        this.setAttribute('style', 'display: flex;') //flex-direction: column; align-items: center')
+        this.setAttribute('style', 'display: flex;')
 
         this.innerHTML = 
-                    '<h5 class="cancel" id="cancelAddTimer">cancel</h5>' +
-                    //'<div>' +        
-                    //'</div>' + 
+                    '<h5 class="cancel" id="cancelAddTimer">cancel</h5>' + 
 
                     '<h3>setting new timer</h3>' +
 
@@ -387,6 +382,12 @@ function createTimerMenu(node){
                     '<h4>choose sound</h4>'+
                     '<div class="full flex around">' + 
                          '<select id="soundSelection">'+
+                              '<option value="soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3" '+
+                                        '>bowl light</option>' + 
+                              '<option value="soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3" ' +
+                                        '>bowl deep</option>' + 
+                              '<option value="soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3" '+
+                                        '>bowl gradual</option>' + 
                               '<option value="mynoise_korimako_new_zealand_1.mp3" ' +
                                         '>korimako</option>' + 
                               '<option value="mynoise_birds_random_palmgarden.mp3" ' +
@@ -403,12 +404,6 @@ function createTimerMenu(node){
                                         '>modem</option>' + 
                               '<option value="soundsnap_fax_11507101_receiving.mp3" '+
                                         '>fax</option>' + 
-                              '<option value="soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3" '+
-                                        '>bowl light</option>' + 
-                              '<option value="soundsnap_MYEDIT_WINE_CORK_MALLET_DINGING_ON_SINGING_BOWL_LONG_HOLD.mp3" ' +
-                                        '>bowl deep</option>' + 
-                              '<option value="soundsnap_TIBETAN_BOWL_SINGING_MYEDIT.mp3" '+
-                                        '>bowl gradual</option>' + 
                               '<option value="soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3" '+
                                         '>woodblock cool</option>' + 
                               '<option value="soundsnap_woodblock_BPM_100_9_SHRIEK_2011_MYEDIT.mp3" '+
@@ -443,9 +438,10 @@ function createTimerMenu(node){
                            '</div>' +
                            '<div style="margin-top: 1em;">' + 
                               '<button class="smallBut" value="35"  >35s</button>' + 
-                              '<button class="smallBut" value="45"  >45s</button>' + 
+                              '<button class="smallBut" value="50"  >50s</button>' + 
                               '<button class="smallBut" value="65"  >65s</button>' + 
                               '<button class="smallBut" value="80"  >80s</button>' + 
+                              '<button class="smallBut" value="95"  >95s</button>' + 
                            '</div>' + 
                         '</div>' +   
 
@@ -550,14 +546,3 @@ function toggleAddTimerButton(type){
 
 function getEndDate(){
 }
-/*function nodesToArr(len){
-
-        let result = [];
-        // i=1 to skip first woodblock audio
-
-        for (var i=1; i<len; i++){
-
-            result.push(this[i])
-        }
-        return result
-}*/
