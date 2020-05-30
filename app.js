@@ -1,5 +1,5 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
 app.use(express.static('public'))
 app.get("/", function(req,res){
@@ -8,7 +8,7 @@ app.get("/", function(req,res){
 })
 
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 5000, function(){
 
-    console.log('breathe1 listens on port 3000 or ' + process.env.PORT)
+    console.log(`breathe1 listens on port ${process.env.PORT || 5000}` )
 })

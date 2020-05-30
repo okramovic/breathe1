@@ -9,29 +9,22 @@
         <link rel="manifest" href="./manifest.json">
         <link rel="stylesheet" href="./styles/style.css">
         <link rel="stylesheet" href="./styles/classes.css">
-        <script type="text/javascript" src="./scripts/app.js"></script>
-
   </head>
   <body>
-    <div style="width: 100%; padding: 15px 0px 0px; background-color: rgba(24, 58, 153, 0.4); margin: 0px 0px 20px;
-               display: flex; flex-direction:column; align-items: center;">
-      <h2>breathing timer</h2>
-      <h6>reminds you to breathe in deeply</h6>
+    <div id="nav">
+        <h2 id="mainHeader">breathing timer</h2>
+        <h6 class="marginTop5">reminds you to breathe in deeply</h6>
     </div>
     
 
-    <!--div style="display:flex"><p>timer plays each 4500ms</p><button id="interval">try interval</button></div-->
-
-
-    <button id="timerAdd">add new timer</button>
+    <button id="timerAdd" class="marginTopX">add new timer</button>
 
     <div id="newTimerSettings"></div>
 
-    <h4 id="setTimersHeader"></h4>
+    <h4 id="setTimersHeader" class="marginTopX"></h4>
     <div id="setTimers"></div>
     
     
-    <!-- comes from https://www.soundsnap.com/woodblock_bpm_100_5_shriek_2011 -->
     <audio id="woodblock_100_5">
         <source src="./resources/soundsnap_woodblock_BPM_100_5_SHRIEK_2011.mp3">
     </audio>
@@ -54,10 +47,8 @@
       <audio id="woodblock chinese"><source src="./resources/soundsnap_woodblock_BPM_120_5_SHRIEK_2011.mp3" >woodblock chinese</audio> 
     <audio id="woodblock intermezzo"><source src="./resources/soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3">woodblock intermezzo</audio>
 
+    <!-- <div id="cons"></div> -->
 
-
-    <!--img style="" src="./resources/boy.jpg" alt="boy scared seeing pc"-->
-    <!--h2>v nodemon</h2-->
-    <div id="cons"></div>
+    <script type="text/javascript" src="./scripts/app.js"></script>
   </body>
 </html>

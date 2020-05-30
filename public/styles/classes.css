@@ -18,24 +18,56 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /*justify-content: flex-start;*/
+}
+.flexBetween{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
 .around{
-  justify-content: space-around;
+    justify-content: space-around;
 }
 .topMar15{
   margin-top: 15px;
 }
+.marginTopX{
+    margin-top: 2rem;
+}
+.marginTop5{
+    margin-top: 5px;
+}
 .botMar25{
   margin-bottom: 25px;
 }
+.marginRightX{
+    margin-right: 10px;
+}
+.marginLeft5{
+    margin-left: 5px;
+}
 
-button.smallBut{
-     width: 32px;
-     height: 32px;
-     margin: 0px 3px;
+.paddingX{
+    padding: 5px;
+}
+.paddingVert5{
+    padding: 5px 0;
+}
+.paddingBottom15{
+    padding-bottom: 15px;
+}
+
+.border1pxBlack{
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.smallBut{
+    font-size: 15px;
+    width: 32px;
+    height: 32px;
+    text-align: center;
 }
 
 .timerLIExpanded{
@@ -43,4 +75,29 @@ button.smallBut{
   border-radius: 4px;
 
   padding: 10px;
+}
+
+.width35{
+    width: 35px;
+}
+
+.section{
+    box-sizing: border-box;
+}
+
+.timerStatus{
+    margin-top: 10px;
+}
+
+button.pause{
+    margin-right: 5px;
+}
+button.delete{
+    width: 60px;
+    font-size: 1.75rem;
+}
+
+button.delete span{
+    position: relative;
+    top: -2px;
 }

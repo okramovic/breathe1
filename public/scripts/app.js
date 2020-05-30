@@ -1,22 +1,19 @@
-//import { clearInterval } from "timers";
-
-//alert('hi from script');
 var alarm = 0
 var timers = {}
 var workers = {}
 let Sound
 let previewTimer
 
+let lastSound = null
+
+const {log} = console;
+
 if ('serviceWorker' in navigator){
-  
-        //alert('browser has service worker');
-        //console.log('serviceWorker available');
-          
+            
         navigator.serviceWorker
-            .register('sw.js')
-            .then(function(reg){
-          
-                    console.log('sw registered', reg);
+        .register('sw.js')
+        .then(function(reg){
+            console.log('sw registered', reg);
         })
   
 } else {
@@ -25,12 +22,10 @@ if ('serviceWorker' in navigator){
   
 
 document.addEventListener('DOMContentLoaded',function(ev){
-    
-    // console.log("DOM loaded" ,ev)
   
-    var falcon = document.getElementById('falcon')
-    var woodblock = document.getElementById('woodblock_100_5')
-    let once = document.getElementById('once')
+    // var falcon = document.getElementById('falcon')
+    // var woodblock = document.getElementById('woodblock_100_5')
+    // let once = document.getElementById('once')
     
     let timerAdd = document.getElementById('timerAdd')
 
@@ -56,7 +51,8 @@ document.addEventListener('DOMContentLoaded',function(ev){
 
         // preview sound 
         document.getElementById('soundSelection').addEventListener('change',(ev)=>{
-                    //console.log(ev)
+            lastSound = ev.srcElement.selectedOptions[0].value
+            log('lastSound', lastSound)
                     Sound.pause()
 
                     let choice = ev.srcElement.selectedIndex + 1 // +1 bcs there is woodblock demo sound as 0th element 
@@ -64,22 +60,6 @@ document.addEventListener('DOMContentLoaded',function(ev){
 
                     let demo = document.querySelectorAll('audio')//.children
                     Sound = demo[choice]
-                    
-
-                    /*let arr = nodesToArr.call(demo,demo.length)
-                        //console.log(arr, Array.isArray(arr));
-
-                        // contains mp3 file names
-                        arr = arr.map((item)=>{ 
-                                        let origin = item.children[0].baseURI
-                                        let relPath = item.children[0].src.replace(origin + "resources/", "")
-                                        return relPath})
-
-                        //console.log(arr, Array.isArray(arr));
-
-                        let xxx = arr.find((item)=>{ return item === choice })
-                    // aim: play sound*/
-
         })
         // form validation => adding new timer
         document.getElementById('confirmNewTimer').addEventListener('click', ()=>{
@@ -220,8 +200,9 @@ document.addEventListener('DOMContentLoaded',function(ev){
       //interval.addEventListener('click', setMyInterval)
 
     } else {
-      document.getElementById('interval').innerHTML = "NO WEB WORKER"
-      alert('web worker no available')
+
+        document.getElementById('interval').innerHTML = "NO WEB WORKER"
+        alert('web worker no available')
     }
   })
 function myTimer(args){
@@ -258,6 +239,7 @@ function myTimer(args){
 
 
 }
+
 function updateTimerInfo(timer){
 
         console.log("timer to update", timer)//, "\n", el)
@@ -271,7 +253,7 @@ function updateTimerInfo(timer){
         remains.innerHTML = 'remains: ' + timer.remains
 
         let status = getEl('status')
-        if (timer.remains === 0) status.innerHTML = 'finished'
+        if (timer.remains === 0) status.innerHTML = '<h3 class="timerStatus">finished</h3>'
 
 
         function getEl(classname){
@@ -282,6 +264,7 @@ function updateTimerInfo(timer){
                 }
         }
 }
+
 function addTimerToList(timer){
 
         if (document.getElementById('setTimersHeader').innerHTML == '')
@@ -292,17 +275,22 @@ function addTimerToList(timer){
         div.id = timer.name.toString()
 
         div.innerHTML = '<h5 class="reminder">' + timer.name.replace(/_/g," ") + '</h5>' + 
-                        '<p class="sound"> sound:' + timer.soundName + '</p>' + 
-                        '<p class="interval"> interval:' + timer.interval/1000 + " " + timer.units + '</p>' + 
-                        '<p class="remains"> remains:' + timer.remains + '</p>' // +
+                        '<p class="sound"> sound: ' + timer.soundName + '</p>' + 
+                        '<p class="interval"> interval: ' + timer.interval/1000 + " " + timer.units + '</p>' + 
+                        '<p class="remains"> remains: ' + timer.remains + '</p>' // +
                         //'<p class="from"> from:' + timer.from + '</p>' + 
                         //'<p class="till"> till:' + timer.till + '</p>' 
 
         if (timer.active) div.innerHTML += '<p class="status">active</p>'
         else div.innerHTML += '<p class="status">switched off</p>'
-                        
-        div.innerHTML += '<button class="pause"  >pause</button>' + 
-                         '<button class="delete" onclick="deleteTimer('+ timer.name +')">delete</button>'
+        
+        div.innerHTML += '<br/>'
+        div.innerHTML += `
+            <div class="flex">
+            <button class="delete" onclick="deleteTimer(${timer.name})"><span>×</span></button>
+            </div>
+            `
+        // <button class="pause">pause</button>
 
         //div += '</div>'
 
@@ -314,9 +302,9 @@ function deleteTimer(timer){
         let timername = timer.id
         
         delete window.timers[timername]
-
+        
         let w = workers[timername].worker.terminate()
-        //console.log("worker", w)
+        
         //w.terminate()
         delete workers[timername]
 
@@ -324,13 +312,14 @@ function deleteTimer(timer){
         el.parentNode.removeChild(el)
 
         if( document.getElementById('setTimers').innerHTML==='' ){ document.getElementById('setTimersHeader').innerHTML = ''}
-        console.log("deleteed", timer.id)
+        log("deleted", timer.id)
 }
 
 function playSound(sound){
         //console.log("sound to play id", sound.id)
         return sound.play()
 }
+
 function setMyInterval(){
     //if (woodblock) woodblock.play()
     
@@ -345,42 +334,48 @@ function setMyInterval(){
 
 }
 
-function testTimer(){
-        //console.log(falcon)
+// function testTimer(){
         
+//         let node = document.createElement('p')
+//         node.innerHTML = 'timer set';
+//         node.setAttribute('id', "announce")
 
-        let node = document.createElement('p')
-        node.innerHTML = 'timer set';
-        node.setAttribute('id', "announce")
+//         document.getElementById('cons').appendChild(node)
 
-        document.getElementById('cons').appendChild(node)
-
-        setTimeout(function(){
-            let node = document.getElementById('announce')
-            node.innerHTML = 'timeout passed';
+//         setTimeout(function(){
+//             let node = document.getElementById('announce')
+//             node.innerHTML = 'timeout passed';
             
-            console.log('timer passed')
-            falcon.play();
+//             console.log('timer passed')
+//             falcon.play();
             
-        },15000)
-}
+//         },15000)
+// }
 
 // node.innerHTML = new timerMenu()
 function createTimerMenu(node){
 
         this.setAttribute('style', 'display: flex;')
 
-        this.innerHTML = 
-                    '<h5 class="cancel" id="cancelAddTimer">cancel</h5>' + 
+        this.innerHTML = `
+            <div class="full flexBetween topMar15 paddingVert5">
+                <div class="width35"></div>
+                <h3>set new timer</h3>
+                <h5 class="cancel" id="cancelAddTimer">✖</h5>
+            </div>` +
 
-                    '<h3>setting new timer</h3>' +
+                    // '<h5 class="cancel" id="cancelAddTimer">✖</h5>' + 
+                    // '<h3>setting new timer</h3>' +
 
-                    '<h4>remind me to:</h4>' +
-                    '<input id="newTimerText" type="text" value="breathe in deeply" placeholder="sit with my back straight">' +
-                    '<br/>' +
+                    `<div id="nameContainer" class="full flexBetween marginTopX">
+                        <h4>remind me</h4>
+                        <input id="newTimerText" type="text" value="breathe in deeply" placeholder="sit with my back straight">
+                    </div>
+                    ` +
+                    // '<br/>' +
 
-                    '<h4>choose sound</h4>'+
-                    '<div class="full flex around">' + 
+                    '<div id="soundChoiceContainer" class="section full flex around border1pxBlack marginTopX">' + 
+                        '<h4>sound</h4>'+
                          '<select id="soundSelection">'+
                               '<option value="soundsnap_MYEDIT_CRYSTAL_WAND_ON_SINGING_BOWL.mp3" '+
                                         '>bowl light</option>' + 
@@ -419,34 +414,36 @@ function createTimerMenu(node){
                               '<option value="soundsnap_woodblock_WOODBLUCK_BPM_120_3_MYEDIT.mp3" '+
                                         '>woodblock intermezzo</option>' + 
                          '</select>' + 
-                         '<button id="previewSound" class="smallBut" style="width: auto;">preview</button>' +
+                         '<button id="previewSound" class="smallBut" style="width: auto;">🔊</button>' +
                     '</div>' +
-                    '<br/>' +
+                    // '<br/>' +
 
-                    '<h4>repeats</h4>'+
-                    '<div class="full horiz around botMar25" style="border: 1px solid">' + 
+                    //'<h4>repeats</h4>'+
+                    '<div id="intervalContainer" class="full horiz around marginTopX border1pxBlack">' + 
 
-                        '<div class="vert" style="padding: 15px 0px">' +
-                            '<label >interval</label >' + 
+                        '<div class="vert paddingBottom15">' +
+                            //'<label >interval</label >' + 
                             
                            '<div class="horiz">' +
+                                '<h4 class="marginRightX">interval</h4>'+
                               '<input id="newTimerInterval" type="number" min="1" value="1">' +  
-                              '<form id="timeUnits" style="display: inline">'+
+                              '<form id="timeUnits">'+
                                    '<input type="radio" name="timeUnits" value="1" checked >sec' + 
-                                   '<input type="radio" name="timeUnits" value="60">mins' + 
+                                   '<input type="radio" name="timeUnits" value="60" class="marginLeft5">mins' + 
                               '</form>' +
                            '</div>' +
-                           '<div style="margin-top: 1em;">' + 
-                              '<button class="smallBut" value="35"  >35s</button>' + 
-                              '<button class="smallBut" value="50"  >50s</button>' + 
-                              '<button class="smallBut" value="65"  >65s</button>' + 
-                              '<button class="smallBut" value="80"  >80s</button>' + 
-                              '<button class="smallBut" value="95"  >95s</button>' + 
+                           '<div class="full flexBetween" style="margin-top: 1em;">' + 
+                              '<button class="smallBut" value="20"  >20</button>' + 
+                              '<button class="smallBut" value="35"  >35</button>' + 
+                              '<button class="smallBut" value="50"  >50</button>' + 
+                              '<button class="smallBut" value="65"  >65</button>' + 
+                              '<button class="smallBut" value="80"  >80</button>' + 
+                              '<button class="smallBut" value="95"  >95</button>' + 
                            '</div>' + 
                         '</div>' +   
 
 
-                        '<div class="vert" style="padding: 15px 0px">' +
+                        '<div class="vert paddingBottom15">' +
                             '<label id="repeatLabel">repeats</label >' +
                             //'<div id="repeatsNumber">' +
                                 
@@ -473,7 +470,15 @@ function createTimerMenu(node){
                          '<input id="loudMax" type="number" min="0" max="23" value="23">' +
                          '</div>' + */
 
-                    '<button id="confirmNewTimer">set timer</button>' 
+                    '<button id="confirmNewTimer" class="marginTopX">set timer</button>' 
+
+            // set last sound as selected
+            const options = document.querySelectorAll('#soundSelection option')
+            options.forEach( option =>{
+                // log(option.value)
+
+                if (option.value === lastSound) option.setAttribute('selected', '')
+            })
 
         ;
         // cancelling new timer
@@ -522,20 +527,20 @@ function createTimerMenu(node){
         document.querySelector('#add1Repeat').addEventListener('click', ev =>
                document.querySelector('#newTimerRepeats').value++ 
         )
-        document.querySelector('#remove1Repeat').addEventListener('click', ev =>
-               document.querySelector('#newTimerRepeats').value--
-        )
+        document.querySelector('#remove1Repeat').addEventListener('click', ev =>{
+            const el = document.querySelector('#newTimerRepeats')
+            if (el.value === "1") return;
+            el.value--
+            
+        })
 
         /*document.getElementById('soundSelection').addEventListener('change',()=>{
-                    let demo = document.querySelectorAll('audio').children
+            let demo = document.querySelectorAll('audio').children
+            console.log(demo);
+        })
 
-                    console.log(demo);
-            })
-
-            document.getElementById('confirmNewTimer').addEventListener('click', ()=>{
-
-                let soundHref = document.getElementById('soundSelection').selectedOptions[0].value
-
+        document.getElementById('confirmNewTimer').addEventListener('click', ()=>{
+            let soundHref = document.getElementById('soundSelection').selectedOptions[0].value
         })*/
 }
 

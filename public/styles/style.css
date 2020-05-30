@@ -1,11 +1,20 @@
+@media (min-width: 800px){
+    body{
+        max-width: 600px;
+        margin: auto;
+    }
+}
+
 body{
   min-height: 100vh;
 
   padding: 0px;
-  margin: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
+  /* margin: 0px; */
 
 
-  background-image: url("./lake1.jpg");
+  background-image: url("./Misty-lake.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: auto 100%;
@@ -18,14 +27,12 @@ body{
 
 
 h2 {
-  color: pink;
-  /**/
-  font-style: italic;
+    font-style: italic;
 
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 h3{
-  margin: 0px 0px 10px;
+  margin: 0 0;
   padding: 0px;
 }
 h4{
@@ -34,7 +41,7 @@ h4{
 }
 h5{
   margin: 0px;
-  padding: 10px;
+  padding: 10px 0;
 }
 h6{
   margin-top: 0px;
@@ -45,12 +52,14 @@ p{
 }
 button{
 
-  height: 48px;
-  width: 80px;
+    font-size: 16px;
+    height: 48px;
+    /* width: 80px; */
 
-  border: 1px solid black;
-  border-radius: 4px;
-  background-color: none;
+    border: 1px solid black;
+    border-radius: 4px;
+    /* background-color: none; */
+    background: #f8f8f8;
 }
 button:active, button:focus{
      outline: none;
@@ -58,12 +67,12 @@ button:active, button:focus{
 input[type="text"], input[type="number"]{
     height: 35px;
 
-    font-size: 15px;
+    font-size: 20px;
     text-align: center;
 
     border: none;
     background-color: rgba(0,0,0,.1);
-
+    border-radius: 4px;
 }
 
 input[type="text"]:disabled, input[type="number"]:disabled{
@@ -72,29 +81,58 @@ input[type="text"]:disabled, input[type="number"]:disabled{
 
 }
 input[type="text"]{
-  width: 80%;
+    width: 70%;
   
 }
 input[type="number"]{
-  width: 60px;
-  
+    width: 60px;
 }
+input[type="radio"]{
+    position: relative;
+    bottom: -2px;
+}
+
 select{
-min-height: 2.5em;
-  text-align: center;
-  text-align-last: center;
-  border: 1px solid black;
+    font-size: 15px;
+    min-height: 32px;
+    min-width: 200px;
+    text-align: center;
+    text-align-last: center;
+    border: 1px solid black;
+    -webkit-appearance: none;
 }
 select:active, select:focus{
      outline: none;
 }
 
+label{
+    margin-bottom: 5px;
+}
+
+#nav{
+    /* background-color: rgba(24, 58, 153, 0.4) */
+    background: rgba(250, 250, 250, 0.5);
+    /* width: 100%; */
+    width: 100vw;
+    padding: 15px 0px 0px; 
+    margin: 0;
+
+    display: flex; 
+    flex-direction:column; 
+    align-items: center;
+}
+
+#mainHeader{
+    /* color: pink; */
+    color: rgb(175, 160, 170);
+}
+
 #cancelAddTimer{
-     padding: 0;
-     padding-right: 10px;
+    font-size: 20px;
+    padding: 0 10px;
 }
 #newTimerSettings{
-  margin: 5px 0px 5px;
+  margin: 0 0px 5px;
   width: 97%;
   /*border: 1px solid black;*/
 
@@ -105,8 +143,42 @@ select:active, select:focus{
 }
 
 #setTimers{
-  width: 85%;
+  /* width: 85%; */
+  width: calc( 100% - 10px);
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+#nameContainer{
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+#newTimerInterval{
+    margin-right: 10px;
+}
+
+#add1Repeat{
+    position: relative;
+    left: 1px;
+}
+
+#confirmNewTimer{
+    padding: 10px;
+}
+
+#soundChoiceContainer{
+    padding: 15px 3px;
+}
+
+#intervalContainer{
+    box-sizing: border-box;
+    height: 140px;
+    align-items: flex-end;
+}
+
+#timeUnits{
+    display: flex;
+    align-items: center;
 }
