@@ -89,10 +89,8 @@
     margin-top: 10px;
 }
 
-button.pause{
-    margin-right: 5px;
-}
-button.delete{
+
+/* button.delete{
     width: 60px;
     font-size: 1.75rem;
 }
@@ -100,4 +98,4 @@ button.delete{
 button.delete span{
     position: relative;
     top: -2px;
-}
+} */

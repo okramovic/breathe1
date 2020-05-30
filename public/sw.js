@@ -1,4 +1,4 @@
-const shellName = "breathe_v01.2.04",
+const shellName = "breathe_v01.2.05",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
   "/index.html",

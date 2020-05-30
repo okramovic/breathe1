@@ -287,7 +287,7 @@ function addTimerToList(timer){
         div.innerHTML += '<br/>'
         div.innerHTML += `
             <div class="flex">
-            <button class="delete" onclick="deleteTimer(${timer.name})"><span>×</span></button>
+            <button class="delete" onclick="deleteTimer(${timer.name})"><span>delete</span></button>
             </div>
             `
         // <button class="pause">pause</button>
