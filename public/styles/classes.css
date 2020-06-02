@@ -71,10 +71,11 @@
 }
 
 .timerLIExpanded{
-  border: 1px solid black;
-  border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px;
 
-  padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
 }
 
 .width35{
