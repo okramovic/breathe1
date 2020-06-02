@@ -180,5 +180,22 @@ label{
 
 #timeUnits{
     display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+#intervalTop{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#buttonsAddRemove5{
+    height: calc(100% - 15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-right: 10px;
+    border-right: 1px solid black;
 }

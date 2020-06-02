@@ -428,24 +428,33 @@ function createTimerMenu(node){
                         '<div class="vert paddingBottom15">' +
                             //'<label >interval</label >' + 
                             
-                           '<div class="horiz">' +
+                           '<div id="intervalTop" class="full ">' +
                                 '<h4 class="marginRightX">interval</h4>'+
-                              '<input id="newTimerInterval" type="number" min="1" value="1">' +  
-                              '<form id="timeUnits">'+
-                                   '<input type="radio" name="timeUnits" value="1" checked >sec' + 
-                                   '<input type="radio" name="timeUnits" value="60" class="marginLeft5">mins' + 
-                              '</form>' +
+                                '<input id="newTimerInterval" type="number" min="1" value="1">' +  
+                                '<form id="timeUnits">' +
+                                    `<div class="full">
+                                        <input type="radio" name="timeUnits" value="1" checked >sec
+                                    </div> 
+                                    <div class="full">
+                                        <input type="radio" name="timeUnits" value="60" class="">mins
+                                    </div>` +
+                                '</form>' +
                            '</div>' +
+
                            '<div class="full flexBetween" style="margin-top: 1em;">' + 
-                              '<button class="smallBut" value="20"  >20</button>' + 
-                              '<button class="smallBut" value="35"  >35</button>' + 
-                              '<button class="smallBut" value="50"  >50</button>' + 
-                              '<button class="smallBut" value="65"  >65</button>' + 
-                              '<button class="smallBut" value="80"  >80</button>' + 
-                              '<button class="smallBut" value="95"  >95</button>' + 
+                              '<button class="smallBut hasNumericValue" value="20"  >20</button>' + 
+                              '<button class="smallBut hasNumericValue" value="35"  >35</button>' + 
+                              '<button class="smallBut hasNumericValue" value="50"  >50</button>' + 
+                              '<button class="smallBut hasNumericValue" value="65"  >65</button>' + 
+                              '<button class="smallBut hasNumericValue" value="80"  >80</button>' + 
+                              '<button class="smallBut hasNumericValue" value="95"  >95</button>' + 
                            '</div>' + 
                         '</div>' +   
 
+                        `<div id="buttonsAddRemove5" class="paddingBottom15">
+                           <button id="add5" class="smallBut addRemove5" value="+5">+5</button>
+                           <button id="remove5" class="smallBut addRemove5" value="-5">-5</button>
+                        </div>` +
 
                         '<div class="vert paddingBottom15">' +
                             '<label id="repeatLabel">repeats</label >' +
@@ -521,10 +530,11 @@ function createTimerMenu(node){
                previewSound.play()
                previewTimer = setTimeout(()=>previewSound.pause(), 5000)
         })
-        document.querySelectorAll('button.smallBut').forEach(el=> {
-               if (el.value) el.addEventListener('click', ev =>
-                    document.querySelector('#newTimerInterval').value = ev.srcElement.value
-               )
+        document.querySelectorAll('button.smallBut.hasNumericValue').forEach(el => {
+            el.addEventListener('click', ev =>{
+                document.querySelector('#newTimerInterval').value = ev.srcElement.value
+                log('ha')
+            })
           })
 
         // +- repeats for new timer
@@ -538,6 +548,19 @@ function createTimerMenu(node){
             
         })
 
+
+        
+        document.querySelectorAll('.addRemove5').forEach( button => {
+            button.addEventListener('click', ev =>{
+                const inputEl = document.querySelector('#newTimerInterval')
+                const delta = parseInt(ev.srcElement.value)
+                const currentValue = parseInt(inputEl.value || 1)
+
+                if ( parseInt(currentValue) + delta < 1) return alert('cant have negative values')
+                
+                inputEl.value = currentValue + delta
+            })
+        })
         /*document.getElementById('soundSelection').addEventListener('change',()=>{
             let demo = document.querySelectorAll('audio').children
             console.log(demo);
