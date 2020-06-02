@@ -89,7 +89,7 @@ input[type="number"]{
 }
 input[type="radio"]{
     position: relative;
-    bottom: -2px;
+    /* bottom: -2px; */
 }
 
 select{

@@ -6,6 +6,8 @@ let previewTimer
 
 let lastSound = null
 
+const defaultTimerValue = 'breathe in deeply'
+
 const {log} = console;
 
 if ('serviceWorker' in navigator){
@@ -86,10 +88,13 @@ document.addEventListener('DOMContentLoaded',function(ev){
                     
                     
                     // set timer name
-                        let timerName = document.getElementById('newTimerText').value
-                        if (!timerName || timerName.trim()===""){   alert('there has to be some text set')
-                                                                    // set focus on that element
-                                                                    return
+                        const timerNumber = (Object.keys(window.timers).length + 1).toString()
+                        let timerName = document.getElementById('newTimerText').value || timerNumber || defaultTimerValue
+                        log('timerNumber', timerNumber, timerName, window.timers)
+                        if (timerName.trim()===''){
+
+                            return alert('there has to be unique name of timer')
+                            // set focus on that element               
                         }
                         timerName = timerName.replace(/\s/g,"_")
                     // check that this name isnt used already = prevent duplicities & bugs
@@ -369,9 +374,8 @@ function createTimerMenu(node){
 
                     `<div id="nameContainer" class="full flexBetween marginTopX">
                         <h4>remind me</h4>
-                        <input id="newTimerText" type="text" value="breathe in deeply" placeholder="sit with my back straight">
-                    </div>
-                    ` +
+                        <input id="newTimerText" type="text" value="" placeholder="breathe in deeply" autocomplete='off'>
+                    </div>` +
                     // '<br/>' +
 
                     '<div id="soundChoiceContainer" class="section full flex around border1pxBlack marginTopX">' + 
