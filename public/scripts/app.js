@@ -71,17 +71,17 @@ document.addEventListener('DOMContentLoaded',function(ev){
                     }
 
                     // check if maximum amount of timers 5 hasnt been reached
-                            let props = 0
-                            for (var prop in window.timers){
-                                    console.log("prop", prop)
-                                    if (prop) props ++
-                            }
-                            if (props > 5){
-                                alert('you have too many timers set, 3 is max')
-                                let newMenu = document.getElementById('newTimerSettings')
-                                newMenu.parentNode.removeChild(newMenu)
-                                return
-                            }
+                            // let props = 0
+                            // for (var prop in window.timers){
+                            //         console.log("prop", prop)
+                            //         if (prop) props ++
+                            // }
+                            // if (props > 5){
+                            //     alert('you have too many timers set, 3 is max')
+                            //     let newMenu = document.getElementById('newTimerSettings')
+                            //     newMenu.parentNode.removeChild(newMenu)
+                            //     return
+                            // }
                             //console.log('props', props)
                     
                     
