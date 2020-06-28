@@ -1,4 +1,4 @@
-const shellName = "breathe_v01.2.06",
+const shellName = "breathe_v01.2.07",
 origin = "https://breathe1.herokuapp.com"
 shellFiles = [
   "/index.html",
@@ -45,7 +45,7 @@ self.addEventListener('install', e =>{
 
 self.addEventListener('activate', e =>{
 
-    console.log('sw activated');
+    //console.log('sw activated');
 
     e.waitUntil(
         caches.keys().then(cacheNames =>

@@ -11,7 +11,6 @@ onmessage = function(e){
             return 
 
         } else self = e.data
-        console.log("__ worker started __", self)
         
         //postMessage(i)// * e.data[0] * e.data[1])
           

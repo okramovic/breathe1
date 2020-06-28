@@ -15,7 +15,7 @@ if ('serviceWorker' in navigator){
         navigator.serviceWorker
         .register('sw.js')
         .then(function(reg){
-            console.log('sw registered', reg);
+            //console.log('sw registered', reg);
         })
   
 } else {
@@ -89,8 +89,11 @@ document.addEventListener('DOMContentLoaded',function(ev){
                     
                     // set timer name
                         const timerNumber = (Object.keys(window.timers).length + 1).toString()
-                        let timerName = document.getElementById('newTimerText').value || timerNumber || defaultTimerValue
-                        log('timerNumber', timerNumber, timerName, window.timers)
+                        //let timerName = document.getElementById('newTimerText').value || timerNumber || defaultTimerValue
+                        let timerName = timerNumber || defaultTimerValue
+
+                        //log('timerNumber', timerNumber, timerName, window.timers)
+
                         if (timerName.trim()===''){
 
                             return alert('there has to be unique name of timer')
@@ -111,7 +114,7 @@ document.addEventListener('DOMContentLoaded',function(ev){
                         let Sound = sounds[index]
                         let myArgs = []
                             myArgs[0] = Sound
-                        console.log("Sound", Sound.getAttribute('id'), "\n")       // Array.isArray(myArgs)
+                        //console.log("Sound", Sound.getAttribute('id'), "\n")       // Array.isArray(myArgs)
 
                     // set interval number in minutes
 
@@ -123,29 +126,20 @@ document.addEventListener('DOMContentLoaded',function(ev){
                                     // set focus on that element
                                     return
                         }
-                        console.log("interval",interval, typeof interval)
                         document.getElementById('newTimerInterval').value = interval
 
                     // set repeats
                         let repeats = null
-                        // if indef is checked
-                        //if (document.getElementById('indefiniteRepeat').checked){
-                        //        console.log("indefinite repeats")
-                        //        repeats = -2
+                        
+                        if (document.getElementById('newTimerRepeats').value < 1 || isNaN(parseInt(document.getElementById('newTimerRepeats').value))
+                        ) {
+                            alert('repeats must be higher than 0')
+                            // focus element
+                            return
+                        }
+                        repeats = parseInt(document.getElementById('newTimerRepeats').value) || 1
 
-                        //} else {
-                                //console.log("indefinite NOT")
-                                if (  document.getElementById('newTimerRepeats').value < 1  ||  
-                                        isNaN(parseInt(document.getElementById('newTimerRepeats').value))) {
-
-                                        alert('repeats must be higher than 0')
-                                        // focus element
-                                        return
-                                }
-                                repeats = parseInt(document.getElementById('newTimerRepeats').value) || 5
-                                console.log("repeats", repeats)
-
-                        //}
+                        
                       // set loud daytime
                         
                         /*let from = parseInt( document.getElementById('loudMin').value ) || 10
@@ -155,8 +149,6 @@ document.addEventListener('DOMContentLoaded',function(ev){
                                 alert('"From" must be earlier time than "To"')
                                 return
                         }*/
-                        
-                    //
                     
 
                     // create interval 
@@ -170,10 +162,8 @@ document.addEventListener('DOMContentLoaded',function(ev){
                         window.timers[timerName].units = (units===1)? " sec":" min"
                         window.timers[timerName].interval = interval * 1000
                         window.timers[timerName].repeats = repeats
-                        window.timers[timerName].remains = repeats//( (repeats === -1)? : )
-                        //window.timers[timerName].endDate = getEndDate()
-                        window.timers[timerName].timer = 
-                                        myTimer.apply(window.timers[timerName], [myArgs])
+                        window.timers[timerName].remains = repeats
+                        window.timers[timerName].timer = myTimer.apply(window.timers[timerName], [myArgs])
                         
                         //console.log("new timer\n", window.timers[timerName])
                         //newMenu.parentNode.removeChild(newMenu)   
@@ -247,14 +237,10 @@ function myTimer(args){
 
 function updateTimerInfo(timer){
 
-        console.log("timer to update", timer)//, "\n", el)
 
         //let el = document.getElementById(timer.name)
         let ch = document.getElementById(timer.name).childNodes
-        //console.log("children", ch)
-
         let remains = getEl('remains')
-        //console.log("remains",remains)
         remains.innerHTML = 'remains: ' + timer.remains
 
         let status = getEl('status')
@@ -275,14 +261,14 @@ function addTimerToList(timer){
         if (document.getElementById('setTimersHeader').innerHTML == '')
                 document.getElementById('setTimersHeader').innerHTML = 'your timers'
 
-        let div = document.createElement('div')  //'<div class="timerLI">' + 
+        let div = document.createElement('div')
         div.setAttribute('class', 'timerLIExpanded') 
         div.id = timer.name.toString()
 
         div.innerHTML = '<h5 class="reminder">' + timer.name.replace(/_/g," ") + '</h5>' + 
-                        '<p class="sound"> sound: ' + timer.soundName + '</p>' + 
-                        '<p class="interval"> interval: ' + timer.interval/1000 + " " + timer.units + '</p>' + 
-                        '<p class="remains"> remains: ' + timer.remains + '</p>' // +
+                        '<p class="sound">sound: ' + timer.soundName + '</p>' + 
+                        '<p class="interval">interval: ' + timer.interval/1000 + " " + timer.units + '</p>' + 
+                        '<p class="remains">remains: ' + timer.remains + '</p>' // +
                         //'<p class="from"> from:' + timer.from + '</p>' + 
                         //'<p class="till"> till:' + timer.till + '</p>' 
 
@@ -290,11 +276,10 @@ function addTimerToList(timer){
         else div.innerHTML += '<p class="status">switched off</p>'
         
         div.innerHTML += '<br/>'
-        div.innerHTML += `
-            <div class="flex">
+        div.innerHTML += `<div class="flex">
             <button class="delete" onclick="deleteTimer(${timer.name})"><span>delete</span></button>
-            </div>
-            `
+        </div>`
+        
         // <button class="pause">pause</button>
 
         //div += '</div>'
@@ -303,26 +288,21 @@ function addTimerToList(timer){
 
 
 }
-function deleteTimer(timer){
-        let timername = timer.id
-        
-        delete window.timers[timername]
-        
+function deleteTimer(timername){
+
         let w = workers[timername].worker.terminate()
         
-        //w.terminate()
+        delete window.timers[timername]
         delete workers[timername]
-
+        
         let el = document.getElementById(timername)
         el.parentNode.removeChild(el)
 
         if( document.getElementById('setTimers').innerHTML==='' ){ document.getElementById('setTimersHeader').innerHTML = ''}
-        log("deleted", timer.id)
 }
 
 function playSound(sound){
-        //console.log("sound to play id", sound.id)
-        return sound.play()
+    return sound.play()
 }
 
 function setMyInterval(){
@@ -372,10 +352,10 @@ function createTimerMenu(node){
                     // '<h5 class="cancel" id="cancelAddTimer">✖</h5>' + 
                     // '<h3>setting new timer</h3>' +
 
-                    `<div id="nameContainer" class="full flexBetween marginTopX">
-                        <h4>remind me</h4>
-                        <input id="newTimerText" type="text" value="" placeholder="breathe in deeply" autocomplete='off'>
-                    </div>` +
+                    // `<div id="nameContainer" class="full flexBetween marginTopX">
+                    //     <h4>remind me</h4>
+                    //     <input id="newTimerText" type="text" value="" placeholder="breathe in deeply" autocomplete='off'>
+                    // </div>` +
                     // '<br/>' +
 
                     '<div id="soundChoiceContainer" class="section full flex around border1pxBlack marginTopX">' + 
@@ -533,7 +513,6 @@ function createTimerMenu(node){
         document.querySelectorAll('button.smallBut.hasNumericValue').forEach(el => {
             el.addEventListener('click', ev =>{
                 document.querySelector('#newTimerInterval').value = ev.srcElement.value
-                log('ha')
             })
           })
 
@@ -547,8 +526,6 @@ function createTimerMenu(node){
             el.value--
             
         })
-
-
         
         document.querySelectorAll('.addRemove5').forEach( button => {
             button.addEventListener('click', ev =>{
@@ -574,7 +551,4 @@ function createTimerMenu(node){
 function toggleAddTimerButton(type){
      const but = document.querySelector('#timerAdd')
      but.style.display = type
-}
-
-function getEndDate(){
 }
