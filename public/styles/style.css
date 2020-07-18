@@ -54,16 +54,18 @@ button{
 
     font-size: 16px;
     height: 48px;
-    /* width: 80px; */
 
     border: 1px solid black;
     border-radius: 4px;
-    /* background-color: none; */
     background: #f8f8f8;
 }
 button:active, button:focus{
      outline: none;
 }
+button:disabled{
+    border: 1px solid lightgray;
+}
+
 input[type="text"], input[type="number"]{
     height: 35px;
 
@@ -99,7 +101,7 @@ select{
     text-align: center;
     text-align-last: center;
     border: 1px solid black;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
 }
 select:active, select:focus{
      outline: none;
@@ -198,4 +200,15 @@ label{
 
     padding-right: 10px;
     border-right: 1px solid black;
+}
+
+#newTimerText{
+    outline: none;
+    border: 2px solid transparent;
+    border-radius: 4px;
+}
+
+#newTimerText.warn, #newTimerText.warn:active, #newTimerText.warn:focus{
+    border: 2px solid red;
+    background-color: pink;
 }
